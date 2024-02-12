@@ -2,6 +2,8 @@
 #define IP_H
 
 /*
+ *  Revision 20200603, Erwin Hoffmann
+ *  - added V46loopback address
  *  Revision 20190414, Erwin Hoffmann
  *  - removed ip_scan and ip_scanbracket (comp. versions).
  *  - added ia6_fmt and ia4_fmt (for qmail)
@@ -89,15 +91,18 @@ unsigned int ip6_scanbracket(const char *,char [16]);
 unsigned int ip6_scan_flat(const char *,char [16]);
 unsigned int ia6_fmt(char *,char [16]);
 
-const static unsigned char V4mappedprefix[12] = {0,0,0,0, 0,0,0,0, 0,0,0xff,0xff};
-const static unsigned char V6loopback[16] = {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1};
-const static unsigned char V6localnet[16] = {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0};
-const static unsigned char V6linklocal[2] = {0xfe,0x80};
+static const unsigned char V4mappedprefix[12] = {0,0,0,0, 0,0,0,0, 0,0,0xff,0xff};
+static const unsigned char V46loopback[16] = {0,0,0,0, 0,0,0,0, 0,0,0xff,0xff, 127,0,0,1};
+static const unsigned char V6loopback[16] = {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,1};
+static const unsigned char V6localnet[16] = {0,0,0,0, 0,0,0,0, 0,0,0,0, 0,0,0,0};
+static const unsigned char V6linklocal[2] = {0xfe,0x80};
 
 int fromhex(unsigned char);
 char tohex(char);
 
 #define V6any V6localnet	/* backward compatibility */
 #define ip6_isv4mapped(ip) (byte_equal(ip,12,V4mappedprefix))
+
+extern int ipv4socket;
 
 #endif

@@ -62,7 +62,7 @@ int dns_txt(stralloc *out,const stralloc *fqdn)
 {
   int rc;
 
-  if (!dns_domain_fromdot(&q,fqdn->s,fqdn->len)) return DNS_ERR;
+  if (dns_domain_fromdot(&q,fqdn->s,fqdn->len) <= 0) return DNS_ERR;
   if (dns_resolve(q,DNS_T_TXT) < 0) return DNS_ERR;
   if ((rc = dns_txt_packet(out,dns_resolve_tx.packet,dns_resolve_tx.packetlen)) < 0) return DNS_ERR;
   dns_transmit_free(&dns_resolve_tx);

@@ -15,7 +15,6 @@ int timeoutread(int t,int fd,char *buf,int len)
   struct taia now;
   struct taia deadline;
   iopause_fd x;
-  int r;
 
   taia_now(&now);
   taia_uint(&deadline,t);
@@ -25,8 +24,8 @@ int timeoutread(int t,int fd,char *buf,int len)
   x.events = IOPAUSE_READ;
   for (;;) {
     taia_now(&now);
-    r = iopause(&x,1,&deadline,&now);
-    if (r > 0 && x.revents) break;
+    iopause(&x,1,&deadline,&now);
+    if (x.revents) break;
     if (taia_less(&deadline,&now)) {
       errno = ETIMEDOUT;
       return -1;
@@ -40,7 +39,6 @@ int timeoutwrite(int t,int fd,char *buf,int len)
   struct taia now;
   struct taia deadline;
   iopause_fd x;
-  int r;
 
   taia_now(&now);
   taia_uint(&deadline,t);
@@ -50,8 +48,8 @@ int timeoutwrite(int t,int fd,char *buf,int len)
   x.events = IOPAUSE_WRITE;
   for (;;) {
     taia_now(&now);
-    r = iopause(&x,1,&deadline,&now);
-    if (r > 0 && x.revents) break;
+    iopause(&x,1,&deadline,&now);
+    if (x.revents) break;
     if (taia_less(&deadline,&now)) {
       errno = ETIMEDOUT;
       return -1;

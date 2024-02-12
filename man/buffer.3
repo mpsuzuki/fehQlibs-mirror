@@ -27,6 +27,8 @@ int \fBbuffer_putflush\fP(buffer* \fIb\fR,char *\fIx\fR,unsigned int \fIlen\fR);
 .br
 int \fBbuffer_putsflush\fP(buffer* \fIb\fR,char *\fIx\fR);
 
+int \fBbuffer_flush\fP(buffer* \fIb\fR);
+.br
 int \fBbuffer_copy\fP(buffer* \fIbo\fR,buffer* \fIbi\fR);
 
 int \fBbuffer_unixread\fP(int \fIfd\fR,char* \fIbuf\fR,size_t \fIlen\fR);

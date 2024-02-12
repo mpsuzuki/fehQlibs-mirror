@@ -33,7 +33,13 @@ If provided, the stub-resolver uses either a system-wide configuration file
 in order to define persistent mapping-rules of local domain names to public 
 ones (for lookup) or IP addresses (for direct matching).
 
-Local domain name can be alternatively specified (per application) using
+Well-known domain names 'localhost', 'ipv4-loopback' and 'ipv6-loopback'
+are handled locally, thus no DNS query is used (RFC 6761).
+'localhost' is advertised as '::1' and '::ff:127.0.0.1' in it's native
+IPv6 format. It is up to the caller to convert the IPv6-mapped IPv4
+address to the IPv4 format.
+
+Local domain names can be alternatively specified (per application) using
 the environment variable
   - $LOCALDOMAIN
 to be appended to unqualified hostnames dynamically. This is roughly equivalent
@@ -60,6 +66,10 @@ sizes up to 1028 byte without the need for (E)DNS0 packet enhancements.
 * DNS UDP query retrials:
 In case the NS is not able to initally reply to the query, 
 it is retried again at the intervalls {1, 2, 4, 8, 16} secs.
+
+* DNS name qualification (dns_ip_qualify):
+Well-known domain names are qualified loally without invoking a DNS query
+while handling IPv4 and IPv6 addresses separately.
 
 * NS qualification/sorting for NS replies:
 NS qualification is not supported (yet), thus we use a randomly sorted
@@ -118,4 +128,4 @@ $LOCALDOMAIN 	Additional local domain name appended to unqualified
 	hostnames dynamically. 
 
 
-Erwin Hoffmann, September 2019.
+Erwin Hoffmann, July 2020.

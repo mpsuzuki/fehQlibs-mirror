@@ -28,7 +28,7 @@ int dns_domain_todot_cat(stralloc *out,const char *d)
            (ch2 == '-') || (ch2 == '_')) {
         if (!stralloc_append(out,&ch2)) return DNS_MEM;
       }
-      else {                                         // IPv4 -> octal
+      else {                                         // decimal -> octal
         ch3 = ch2;
         buf[3] = '0' + (ch3 & 7); ch3 >>= 3;
         buf[2] = '0' + (ch3 & 7); ch3 >>= 3;

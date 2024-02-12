@@ -37,12 +37,12 @@ int dns_name6_domain(char name[DNS_NAME6_DOMAIN],const char ip[16])
   unsigned int j;
 
   for (j = 0; j < 16; j++) {
-    name[j*4]   = 1;
-    name[j*4+1] = tohex(ip[15-j] & 15);
-    name[j*4+2] = 1;
-    name[j*4+3] = tohex((unsigned char)ip[15-j] >> 4);
+    name[j * 4] = 1;
+    name[j * 4 + 1] = tohex(ip[15 - j] & 15);
+    name[j * 4 + 2] = 1;
+    name[j * 4 + 3] = tohex((unsigned char)ip[15 - j] >> 4);
   }
-  byte_copy(name + 4*16,10,"\3ip6\4arpa\0");
-  return 4*16+10;
+  byte_copy(name + 4 * 16,10,"\3ip6\4arpa\0");
+  return 4 * 16 + 10;
 }
 

@@ -6,13 +6,9 @@ dns \- dns resolver routines
 
 int \fBdns_ip4_packet\fP(stralloc *\fIout\fR,const char *\fIbuf\fR,unsigned int \fIlen\fR);
 .br
-int \fBdns_ip4_qualify\fP(stralloc *\fIout\fR,stralloc *\fIfqdn\fR,const stralloc *\fIudn\fR);
-.br
 int \fBdns_ip4\fP(stralloc *\fIout\fR,stralloc *\fIfqdn\fR);
 
 int \fBdns_ip6_packet\fP(stralloc *\fIout\fR,const char *\fIbuf\fR,unsigned int \fIlen\fR);
-.br
-int \fBdns_ip6_qualify\fP(stralloc *\fIout\fR,stralloc *\fIfqdn\fR,const stralloc *\fIudn\fR);
 .br
 int \fBdns_ip6\fP(stralloc *\fIout\fR,stralloc *\fIfqdn\fR);
 
@@ -39,145 +35,72 @@ int \fBdns_txt_packet\fP(stralloc *\fIout\fR,const char *\fIbuf\fR,unsigned int 
 int \fBdns_cname\fP(stralloc *\fIout\fR,stralloc *\fIfqdn\fR);
 .br
 int \fBdns_cname_packet\fP(stralloc *\fIout\fR,const char *\fIbuf\fR,unsigned int \fIlen\fR);
+
+int \fBdns_ip4_qualify\fP(stralloc *\fIout\fR,stralloc *\fIfqdn\fR,const stralloc *\fIudn\fR);
+.br
+int \fBdns_ip6_qualify\fP(stralloc *\fIout\fR,stralloc *\fIfqdn\fR,const stralloc *\fIudn\fR);
+.br
+int \fBdns_ip_qualify\fP(stralloc *\fIout\fR,stralloc *\fIfqdn\fR,const stralloc *\fIudn\fR);
 .SH DESCRIPTION
-.B dns_ip4_packet 
+.B dns_ip[4|6]_packet 
 is a low-level component of 
-.BR dns_ip4 , 
+.BR dns_ip[4|6] , 
 designed to support asynchronous DNS lookups. 
 It reads a DNS packet of length \fIlen\fR from
-\fIbuf\fR, extracts IP addresses from the answer section of the packet,
+\fIbuf\fR, extracts the IP(4|6) addresses from the answer section of the packet and
 puts the addresses into \fIout\fR.
 
-.B dns_ip4_qualify 
-feeds the name \fIudn\fR through qualification and looks up
-4-byte IP addresses for the result. It puts the fully qualified domain name
-into \fIfqdn\fR, puts the concatenation of the IP addresses into \fIout\fR, and
-returns \fI0\fR. If the domain does not exist in DNS, or has no IP addresses,
-\fIout\fR will be empty.
+.B dns_ip[4|6]
+looks up 4/16-byte IPv6 addresses for the fully-qualified domain name of
+\fIfqdn\fR.  It puts the concatenation of the IPv[4|6] addresses into \fIout\fR and
+returns the number of received answers for \fIfqdn\fR or \fI0\fR if none are replied.
+If the domain does not exist in DNS, or has no IP addresses,
+\fIout\fR will be empty.  More generally, if \fIfqdn\fR is a
+dot-separated sequence of dotted-decimal IP addresses, 
+.B dns_ip[4|6]
+puts those IP addresses into out without checking DNS. 
+Brackets may appear inside the dotted-decimal IP addresses; they are ignored.
 
-.B dns_ip4 
-looks up 4-byte IP addresses for the fully-qualified domain name in
-\fIfqdn\fR. It puts the concatenation of the IP addresses into \fIout\fR and
-returns \fI0\fR. If the domain does not exist in DNS, or has no IP addresses,
-\fIout\fR will be empty.
-If \fIfqdn\fR is a dotted-decimal IP address, 
-.B dns_ip4 
-puts that IP address into
-\fIout\fR without checking DNS. More generally, if \fIfqdn\fR is a
-dot-separated sequence of dotted-decimal IP addresses, dns_ip4 puts those IP
-addresses into out without checking DNS. Brackets may appear inside the
-dotted-decimal IP addresses; they are ignored.
-
-.B dns_ip6_packet 
+.B dns_name[4|6]_packet 
 is a low-level component of 
-.BR dns_ip6 , 
+.B dns_name[4|6] 
 designed to support asynchronous DNS lookups. 
-It reads a DNS packet of length \fIlen\fR from \fIbuf\fR, 
-extracts IPv4 and IPv6 addresses from the answer section of the packet, 
-puts the addresses into \fIout\fR, and returns the number of replies received,
-which of course may be \fI0\fR or \fI-1\fR in case of memory shortage in the same way as 
-.BR dns_ip6 .
+It reads a DNS packet of length \fIlen\fR from \fIbuf\fR,
 
-.B dns_ip6_qualify 
-feeds the name \fIudn\fR through qualification and looks up the
-16-byte IPv6 addresses for the result. It puts the fully qualified domain name
-into \fIfqdn\fR, puts the concatenation of the IP addresses into \fIout\fR, and
-returns \fI0\fR. If the domain does not exist in DNS, or has no IP addresses,
-\fIout\fR will be empty.
-
-.B dns_ip6_qualify 
-also looks up 4-byte IPv4 addresses and converts them
-into IPv4-mapped IPv6 addresses (\fI::ffff:1.2.3.4\fR) to provide easy
-backwards compatibility for IPv6 applications.
-
-.B dns_ip6 
-looks up 16-byte IPv6 addresses for the fully-qualified domain name in
-\fIfqdn\fR. It puts the concatenation of the IPv6 addresses into \fIout\fR and
-returns \fI0\fR. If the domain does not exist in DNS, or has no IP addresses,
-\fIout\fR will be empty.
-.B dns_ip6 
-also looks up 4-byte IPv4 addresses and converts them into
-IPv4-mapped IPv6 addresses (\fI::ffff:1.2.3.4\fR) to provide easy backwards
-compatibility for IPv6 applications.
-If \fIfqdn\fR is an IPv6 address, 
-.B dns_ip6 
-puts that IP address into \fIout\fR without checking DNS.  
-IPv4 addresses are also used directly without DNS lookup.
-
-.B dns_mx 
-looks up MX records for the fully-qualified domain name in
-\fIfqdn\fR. It puts the MX records into \fIout\fR and returns \fI0\fR. 
-Each MX record is a two-byte MX distance (big endian) followed by a
-\\0-terminated dot-encoded domain name. If the domain does not exist in
-DNS, or has no MX records, \fIout\fR will be empty.
-
-.B dns_mx_packet 
-is a low-level component of dns_mx, designed to support
-asynchronous DNS lookups. It reads a DNS packet of length \fIlen\fR from \fIbuf\fR,
-extracts the MX records from the answer section of the packet, puts the
-result into \fIout\fR, and returns the number of replies received 
-or \fI-1\fR the same way as 
-.BR dns_mx .
-
-.B dns_name4_domain 
+.B dns_name[4|6]_domain 
 is a low-level component of 
-.BR dns_name4 .  
+.BR dns_name[4|6] .  
 It converts an IP address such as 
 .I 1.2.3.4 
-into a domain name such as
-.I 4.3.2.1.in-addr.arpa 
-and places the packet-encoded domain name into \fIq\fR.
-.I q 
-is zero terminated.
-.I q 
-must have space for DNS_NAME4_DOMAIN bytes.
-
-.B dns_name4 
-looks up the domain name for the 4-byte IP address in \fIip\fR. It
-puts the (first) domain name into \fIout\fR and returns \fI0\fR. If the relevant
-.I in-addr.arpa 
-domain does not exist in DNS, or has no PTR records, \fIout\fR will be empty.
-
-.B dns_name6_domain 
-is a low-level component of 
-.BR dns_name6 .  
-It converts an IP address such as 
+or 
 .I 4321:0:1:2:3:4:567:89ab 
 into a domain name such as
+.I 4.3.2.1.in-addr.arpa 
+or 
 .I b.a.9.8.7.6.5.0.4.0.0.0.3.0.0.0.2.0.0.0.1.0.0.0.0.0.0.0.1.2.3.4.ip6.arpa
 and places the packet-encoded domain name into \fIq\fR.
 .I q 
 is zero terminated.
 .I q 
-must have space for DNS_NAME6_DOMAIN bytes.
+must have space for DNS_NAME[4|6]_DOMAIN bytes.
 
-.B dns_name6 
-looks up the domain name for the 16-byte IPv6 address in \fIip\fR. It
-puts the (first) domain name into \fIout\fR and returns \fI0\fR. If the relevant
-.I ip6.arpa 
-domain does not exist in DNS, or has no PTR records, \fIout\fR will be empty.
-
-.B dns_name
-looks up the domain name for the 16-byte IPv6 address in \fIip\fR calling
-.BR dns_name6 .
-In case a IPv4-mappped IPv6 address is recognized, it uses
-.BR dns_name4 .
-
-.B dns_name_packet 
+.B dns_mx_packet 
 is a low-level component of 
-.B dns_name4 
-and
-.B dns_name6
+.BR dns_mx , 
 designed to support asynchronous DNS lookups. 
 It reads a DNS packet of length \fIlen\fR from \fIbuf\fR,
-extracts the first PTR record from the answer section of the packet, puts the
-result into \fIout\fR.
+extracts the MX records from the answer section of the packet, puts the
+result into \fIout\fR, and returns the number of replies received 
+or \fI-1\fR the same way as 
+.BR dns_mx .
 
-.B dns_txt 
-looks up TXT records for the fully-qualified domain name in
-\fIfqdn\fR. It puts the concatenation of the TXT records into \fIout\fR
-and returns the number of replies received.  
-If the domain does not exist in DNS, or has no TXT records, \fIout\fR will be empty.
+.B dns_mx 
+looks up MX records for the fully-qualified domain name in
+\fIfqdn\fR. It puts the MX records into \fIout\fR and returns the number of 
+received records or \fI0\fR.
+Each MX record is a two-byte MX distance (big endian) followed by a
+\\0-terminated dot-encoded domain name. If the domain does not exist in
+DNS, or has no MX records, \fIout\fR will be empty.
 
 .B dns_txt_packet 
 is a low-level component of 
@@ -188,9 +111,11 @@ extracts the TXT records from the answer section of the packet, puts the
 result into \fIout\fR, and returns the number of replies 
 or \fI-1\fR the same way as \fBdns_txt\fR.
 
-.B dns_cname
-looks up the canonical name for a given
-.IR fqdn .
+.B dns_txt 
+looks up TXT records for the fully-qualified domain name in
+\fIfqdn\fR. It puts the concatenation of the TXT records into \fIout\fR
+and returns the number of replies received.  
+If the domain does not exist in DNS, or has no TXT records, \fIout\fR will be empty.
 
 .B dns_cname_packet 
 is a low-level component of 
@@ -200,13 +125,64 @@ asynchronous DNS lookups. It reads a DNS packet of length \fIlen\fR from \fIbuf\
 extracts the TXT records from the answer section of the packet, puts the
 result into \fIout\fR, and returns the number of replies received  or
 \fI-1\fR the same way as \fBdns_cname\fR.
+
+.B dns_cname
+looks up the canonical name for a given
+.IR fqdn .
+
+.B dns_ip[4|6]_qualify 
+feeds the name \fIudn\fR through qualification and looks up their
+4-byte/16-byte IP addresses. It puts the fully qualified domain name
+into \fIfqdn\fR and the concatenation of the IP addresses into \fIout\fR, 
+while returning the number of encountered IP addresses.
+.B dns_ip[4|6]_qualify
+evaluates the environment variables
+.I DNSWRITEFILE
+pointing to
+.I /etc/dnsrewrite
+and
+.I LOCALDOMAIN
+and finally reading
+.I /etc/resolv.conf
+to build the
+.I Full Qualified Domain Name (FQDN)
+using the
+.I domain suffix
+for
+.IR hostname .
+.B dns_ip_qualify
+returns
+.I out
+as
+.I IP[4|6]
+and
+.IR FQDN .
+If the domain does not exist in DNS, or has no IP addresses,
+\fIout\fR will be empty and the return code is \fI0\fR.
+
+In case
+.B dns_ip[4|6]_qualify
+is fed with an
+.I IP[4|6]
+addresses instead of domain names,
+it recognizes those not to be subject of
+.IR qualification .
+The particular names
+.IR localhost ,
+.I ipv4-loopback
+and
+.I ipv6-loopback
+are treated locally and mapped to
+the respective
+.I IP[4|6]
+addresses (and vice versa)
+without facilitating a DNS lookup.
 .SH "INPUT"
 For the high-level routines
-.BR dns_ip4 ,
-.BR dns_ip6 ,
+.BR dns_ip[4|6] ,
+.BR dns_ip_qualify[4|6] ,
+.BR dns_name[4|6] ,
 .BR dns_mx ,
-.BR dns_name4 ,
-.BR dns_name6 ,
 .BR dns_name ,
 .BR dns_txt 
 and 
@@ -217,6 +193,23 @@ needs to be un-terminated, thus the given
 string length is identitical to the number of 
 .I fqdn 
 characters.
+.SH "OUTPUT"
+The returned IP addresses are given as character (byte) strings
+with 4 or 16 bytes:
+.B dns_ip4
+and 
+.B dns_ip4_qualifiy
+return 4 byte IPv4 addresses, where as 
+.B dns_ip6
+and 
+.B dns_ip
+as well as
+.B dns_ip6_qualify
+and
+.B dns_ip_qualify
+return sets of 16 byte IPv6 addresses, where
+the potential IPv4 addresses are given in their
+IPv6-mapped-IPv4 representation.
 .SH "RETURN CODES"
 The dns routines 
 .BR dns_cname* ,
@@ -240,6 +233,8 @@ is returned and setting
 appropriately.
 In case of a failure, the respective output variables like
 \fIout\fR and \fIfqdn\fR may or may not change.
+Since a received reply may be empty, always check the length of the
+received output additionally.
 .SH "SEE ALSO"
 ip4(3), 
 ip6(3), 

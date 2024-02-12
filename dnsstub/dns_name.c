@@ -34,7 +34,7 @@ int dns_name_packet(stralloc *out,const char *buf,unsigned int len)
     if (byte_equal(header,2,DNS_T_PTR))
       if (byte_equal(header + 2,2,DNS_C_IN)) {
         if (!dns_packet_getname(buf,len,pos,&q)) return DNS_ERR;
-        if (!dns_domain_todot_cat(out,q)) return DNS_ERR;
+        if (dns_domain_todot_cat(out,q) <= 0) return DNS_ERR;
         return 1;
       }
     pos += datalen;

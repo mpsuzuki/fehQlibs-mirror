@@ -13,6 +13,8 @@
 	@brief querying local and remote info for socket
 */
 
+int ipv4socket;
+
 int socket_local(int s,char ip[16],uint16 *port,uint32 *scope_id)
 {
   struct sockaddr_in6 sa;
@@ -26,11 +28,11 @@ int socket_local(int s,char ip[16],uint16 *port,uint32 *scope_id)
     byte_copy(ip+12,4,(char *)&sa4->sin_addr);
     uint16_unpack_big((char *)&sa4->sin_port,port);
     if (scope_id) *scope_id = 0;
-    return 0;
+  } else {
+    byte_copy(ip,16,(char *)&sa.sin6_addr);
+    uint16_unpack_big((char *)&sa.sin6_port,port);
+    if (scope_id) *scope_id = sa.sin6_scope_id;
   }
-  byte_copy(ip,16,(char *)&sa.sin6_addr);
-  uint16_unpack_big((char *)&sa.sin6_port,port);
-  if (scope_id) *scope_id = sa.sin6_scope_id;
 
   return 0;
 }
@@ -48,12 +50,11 @@ int socket_remote(int s,char ip[16],uint16 *port,uint32 *scope_id)
     byte_copy(ip+12,4,(char *)&sa4->sin_addr);
     uint16_unpack_big((char *)&sa4->sin_port,port);
     *scope_id = 0;
-    return 0;
+  } else {
+    byte_copy(ip,16,(char *)&sa.sin6_addr);
+    uint16_unpack_big((char *)&sa.sin6_port,port);
+    *scope_id = sa.sin6_scope_id;
   }
-
-  byte_copy(ip,16,(char *)&sa.sin6_addr);
-  uint16_unpack_big((char *)&sa.sin6_port,port);
-  *scope_id = sa.sin6_scope_id;
 
   return 0;
 }

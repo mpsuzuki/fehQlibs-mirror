@@ -23,5 +23,6 @@ typedef struct {
 #include "taia.h"
 
 extern int iopause(iopause_fd *,unsigned int,struct taia *,struct taia *);
+extern unsigned long pollmax;
 
 #endif

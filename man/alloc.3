@@ -56,6 +56,12 @@ If space is not available,
 .B alloc_re
 returns 0,
 leaving the old space alone.
+.SH "CVE-2005-1513"
+This version of
+.B alloc
+respects
+.I limits.h
+to avoid memory resource exhaustion.
 .SH "SEE ALSO"
 sbrk(2),
 malloc(3),

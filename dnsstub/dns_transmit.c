@@ -287,7 +287,7 @@ void dns_transmit_io(struct dns_transmit *d,iopause_fd *x,struct taia *deadline)
 
 int dns_transmit_get(struct dns_transmit *d,const iopause_fd *x,const struct taia *when)
 {
-  char udpbuf[MSGSIZE+1];
+  char udpbuf[MSGSIZE + 1];
   unsigned char ch;
   int r;
   int fd;

@@ -6,15 +6,15 @@ dns \- stub resolver
 
 int \fBdns_resolvconfip\fP(char \fIservers\fR[512],uint32 \fIscope\fR[32]);
 
-int \fBdns_transmit_start\fP(struct dns_transmit *\fId\fR,const char \fIservers\fR[512],
+int \fBdns_transmit_start\fP(struct dns_transmit *\fIq\fR,const char \fIservers\fR[512],
     int \fIflagrecursive\fR,const char *\fIq\fR,const char \fIqtype\fR[2],
     const char \fIlocalip\fR[16]); 
 .br
-int \fBdns_transmit_start6\fP(struct dns_transmit *\fId\fR,const char \fIservers\fR[512],
+int \fBdns_transmit_start6\fP(struct dns_transmit *\fIq\fR,const char \fIservers\fR[512],
     int \fIflagrecursive\fR,const char *\fIq\fR,const char \fIqtype\fR[2], 
     const char \fIlocalip\fR[16],const uint32 \fIscopes\fR[32]); 
 
-int \fBdns_sortip4(\fP(char *\fIservers\fR,unsigned int \fIn\fR);
+int \fBdns_sortip4\fP(char *\fIservers\fR,unsigned int \fIn\fR);
 .br
 int \fBdns_sortip6\fP(char *\fIservers\fR,unsigned int \fIn\fR);
 .br
@@ -73,9 +73,44 @@ and
 randomize the list of name server IPs upon call and as result the first address
 is used to facilitate the name lookup.
 .B dns_sortip
-will remove IPv6 addresses from the list given a
-.IR ipv4socket .
+will remove IPv6 addresses from the list given
+.I ipv4socket 
+is set.
+.IR FQDN .
+.SH "RETURN CODES"
+Different from the original djb implemtation, the 
+following return code scheme is used:
+.TP 2
+rc > 0
+A 'positive' answer is given, thus results returned.
+.TP 2
+rc = 0
+A 'neutral' answer was provided, thus typically the
+operation succeeden, but without replies.
+.TP 2
+rc < 0
+An operational error was encountered. 
+.TP 0
+Potentially, this needs to be treated specifically:
+.TP 2
+DNS_INT (rc = -4)
+Internal DNS operational error; ie. resources were not
+available.
+.TP 2
+DNS_COM (rc = -3)
+DNS communication error.
+.TP 2
+DNS_ERR (rc = -2)
+Parsing errors and others.
+.TP 2
+DNS_MEM (rc = -1)
+Memory error occured.
+.TP 0
+A 'safe' usage of return codes thus checks not only the presence 
+of a return code, but rather additionally it's sign.
+Negative return codes point to errors.
 .SH "SEE ALSO"
+http://cr.yp.to/djbdns/qualify.html,
 dns(3), 
 ip4(3), 
 ip6(3), 

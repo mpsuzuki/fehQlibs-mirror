@@ -51,11 +51,20 @@ int dns_ip4(stralloc *out,stralloc *fqdn)
   unsigned int i;
   char code;
   char ch; 
+  char ip[4];
+  int r;
   int rc = 0;
 
   if (!stralloc_copys(out,"")) return DNS_MEM;
-  code = 0;
+  if (!stralloc_readyplus(fqdn,1)) return DNS_MEM;
 
+  fqdn->s[fqdn->len] = 0;		/* if FQDN is just IPv4 */
+  if (ip4_scan(fqdn->s,ip)) {
+    if (!stralloc_copyb(out,ip,4)) return DNS_MEM;
+    return 1;
+  }
+
+  code = 0;
   for (i = 0; i <= fqdn->len; ++i) {
     if (i < fqdn->len)
       ch = fqdn->s[i];
@@ -74,12 +83,14 @@ int dns_ip4(stralloc *out,stralloc *fqdn)
       continue;
     }
 
-    if (!dns_domain_fromdot(&q,fqdn->s,fqdn->len)) return DNS_ERR;	// fdqn -> A query -> response
+    if (dns_domain_fromdot(&q,fqdn->s,fqdn->len) <= 0) return DNS_ERR;	// fdqn -> A query -> response
     if (dns_resolve(q,DNS_T_A) >= 0) {
-      if ((rc = dns_ip4_packet(out,dns_resolve_tx.packet,dns_resolve_tx.packetlen)) < 0) return DNS_ERR;
+      if ((r = dns_ip4_packet(out,dns_resolve_tx.packet,dns_resolve_tx.packetlen)) < 0) return DNS_ERR;
       dns_transmit_free(&dns_resolve_tx);
       dns_domain_free(&q);
+      rc += r;
     }
+
     return rc; 
   }
 
@@ -140,8 +151,7 @@ int dns_ip6(stralloc *out,stralloc *fqdn)
   if (!stralloc_readyplus(fqdn,1)) return DNS_MEM;
 
   fqdn->s[fqdn->len] = 0;		/* if FQDN is just IPv6 */
-  if ((i = ip6_scan(fqdn->s,ip))) {
-    if (fqdn->s[i]) return DNS_INT;
+  if (ip6_scan(fqdn->s,ip)) {
     if (!stralloc_copyb(out,ip,16)) return DNS_MEM;
     return 1;
   }
@@ -165,7 +175,7 @@ int dns_ip6(stralloc *out,stralloc *fqdn)
       continue;
     }
 
-    if (!dns_domain_fromdot(&q,fqdn->s,fqdn->len)) return DNS_ERR; // fqdn -> AAAA query -> response
+    if (dns_domain_fromdot(&q,fqdn->s,fqdn->len) <= 0) return DNS_ERR; // fqdn -> AAAA query -> response
     if (dns_resolve(q,DNS_T_AAAA) >= 0) {
       if ((r = dns_ip6_packet(out,dns_resolve_tx.packet,dns_resolve_tx.packetlen)) < 0) return DNS_ERR;
       dns_transmit_free(&dns_resolve_tx);

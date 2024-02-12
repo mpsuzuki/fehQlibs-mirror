@@ -3,10 +3,12 @@
 #include "str.h"
 #include "stralloc.h"
 #include "dnsresolv.h"
+#include "socket_if.h"
+#include "ip.h"
 
 /**
 	@file dns_ipq.c	
-	@author djb 
+	@author djb, feh
 	@source ucspi-tcp
 	@brief dns hostname qualification for ipv4 and ipv6
 */
@@ -43,7 +45,7 @@ int dns_ip4_qualify_rules(stralloc *out,stralloc *fqdn,const stralloc *in,const 
   unsigned int j;
   unsigned int plus;
   unsigned int fqdnlen;
-  int rc;
+  int rc = 0;
 
   if (!stralloc_copy(fqdn,(stralloc *)in)) return DNS_MEM;
 
@@ -63,17 +65,21 @@ int dns_ip4_qualify_rules(stralloc *out,stralloc *fqdn,const stralloc *in,const 
     j = byte_chr(fqdn->s + i,fqdnlen - i,'+');
     byte_copy(fqdn->s + plus,j,fqdn->s + i);
     fqdn->len = plus + j;
-    if ((rc = dns_ip4(out,fqdn)) < 0) return DNS_ERR;
-    if (rc) return 0;
+    if (rc += dns_ip4(out,fqdn) < 0) return DNS_ERR;
+    if (out->len) return 0;
     i += j;
     if (i >= fqdnlen) return 0;
     ++i;
   }
+  return rc;
 }
 
 int dns_ip4_qualify(stralloc *out,stralloc *fqdn,const stralloc *in)
 {
+  int r;
   static stralloc rules;
+
+  if ((r = dns_ip_qualify_localhost(out,fqdn,in)) > 0 ) return r; 
   if (dns_resolvconfrewrite(&rules) < 0) return DNS_INT;
   return dns_ip4_qualify_rules(out,fqdn,in,&rules);
 }
@@ -84,7 +90,7 @@ int dns_ip6_qualify_rules(stralloc *out,stralloc *fqdn,const stralloc *in,const 
   unsigned int j;
   unsigned int plus;
   unsigned int fqdnlen;
-  int rc; 
+  int rc = 0; 
 
   if (!stralloc_copy(fqdn,(stralloc *)in)) return DNS_MEM;
 
@@ -104,7 +110,77 @@ int dns_ip6_qualify_rules(stralloc *out,stralloc *fqdn,const stralloc *in,const 
     j = byte_chr(fqdn->s + i,fqdnlen - i,'+');
     byte_copy(fqdn->s + plus,j,fqdn->s + i);
     fqdn->len = plus + j;
-    if ((rc = dns_ip6(out,fqdn)) < 0) return DNS_ERR;
+    if ((rc += dns_ip6(out,fqdn)) < 0) return DNS_ERR;
+    if (out->len) return 0;
+    i += j;
+    if (i >= fqdnlen) return 0;
+    ++i;
+  }
+  return rc;
+}
+
+int dns_ip6_qualify(stralloc *out,stralloc *fqdn,const stralloc *in)
+{
+  int r; 
+  static stralloc rules;
+  
+  if ((r = dns_ip_qualify_localhost(out,fqdn,in)) > 0) return r;
+  if (dns_resolvconfrewrite(&rules) < 0) return DNS_INT;
+  return dns_ip6_qualify_rules(out,fqdn,in,&rules);
+}
+
+int dns_ip_qualify_rules(stralloc *out,stralloc *fqdn,const stralloc *in,const stralloc *rules)
+{
+  unsigned int i;
+  unsigned int j;
+  unsigned int k;
+  unsigned int plus;
+  unsigned int fqdnlen;
+  stralloc tmp = {0};
+  int rc = 0; 
+
+  if (!stralloc_copy(fqdn,(stralloc *)in)) return DNS_MEM;
+  if (!stralloc_copys(out,"")) return DNS_MEM;
+
+  for (j = i = 0; j < rules->len; ++j)
+    if (!rules->s[j]) {
+      if (!doit(fqdn,rules->s + i)) return DNS_INT;
+      i = j + 1;
+    }
+
+  fqdnlen = fqdn->len;
+  plus = byte_chr(fqdn->s,fqdnlen,'+');
+  if (plus >= fqdnlen) {
+    rc = dns_ip6(out,fqdn);
+    if (dns_ip4(&tmp,fqdn) > 0) {
+      for (k = 0; k < tmp.len; k += 4) {
+        if (!stralloc_catb(out,(const char *) V4mappedprefix,12)) return DNS_MEM;
+        if (!stralloc_catb(out,tmp.s + k,4)) return DNS_MEM;
+        rc++;
+      }
+      if (!stralloc_0(out)) return DNS_MEM;
+    }
+    return rc;
+  }
+
+  i = plus + 1;
+  for (;;) {
+    j = byte_chr(fqdn->s + i,fqdnlen - i,'+');
+    byte_copy(fqdn->s + plus,j,fqdn->s + i);
+    fqdn->len = plus + j;
+    if (!stralloc_copys(out,"")) return DNS_MEM;
+    rc = dns_ip6(&tmp,fqdn); 
+    if (rc) if (!stralloc_cat(out,&tmp)) return DNS_MEM;
+    if (dns_ip4(&tmp,fqdn) > 0) {
+      for (k = 0; k < tmp.len; k += 4) {
+        if (!stralloc_catb(out,(const char *) V4mappedprefix,12)) return DNS_MEM;
+        if (!stralloc_catb(out,tmp.s + k,4)) return DNS_MEM;
+        rc++;
+      }
+      if (!stralloc_0(out)) return DNS_MEM;
+    }
+    
+    if (rc < 0) return DNS_ERR;
     if (rc) return 0;
     i += j;
     if (i >= fqdnlen) return 0;
@@ -112,9 +188,36 @@ int dns_ip6_qualify_rules(stralloc *out,stralloc *fqdn,const stralloc *in,const 
   }
 }
 
-int dns_ip6_qualify(stralloc *out,stralloc *fqdn,const stralloc *in)
+int dns_ip_qualify_localhost(stralloc *out,stralloc *fqdn,const stralloc *in)
 {
+  if (!stralloc_copys(out,"")) return DNS_MEM;
+  if (!stralloc_copys(fqdn,"")) return DNS_MEM;
+  out->len = 0;
+
+  if (byte_equal(in->s,9,LOCALHOST)) {
+    if (!stralloc_copyb(out,(const char *) V6loopback,16)) return DNS_MEM;
+    if (!stralloc_catb(out,(const char *) V46loopback,16)) return DNS_MEM;
+	  if (!stralloc_copys(fqdn,"localhost.localhost.")) return DNS_MEM;
+  }
+  if (byte_equal(in->s,13,IP4_LOOPBACK)) {
+    if (!stralloc_copyb(out,(const char *) V46loopback,16)) return DNS_MEM;
+	  if (!stralloc_copys(fqdn,"ipv4-loopback.localhost.")) return DNS_MEM;
+  }
+  if (byte_equal(in->s,13,IP6_LOOPBACK)) {
+    if (!stralloc_copyb(out,(const char *) V6loopback,16)) return DNS_MEM;
+	  if (!stralloc_copys(fqdn,"ipv6-loopback.localhost.")) return DNS_MEM;
+  }
+//  if (!stralloc_0(fqdn)) return DNS_MEM; // don't do it
+
+  return out->len ? out->len % 15 : 0;
+}
+
+int dns_ip_qualify(stralloc *out,stralloc *fqdn,const stralloc *in)
+{
+  int r;
   static stralloc rules;
+
+  if ((r = dns_ip_qualify_localhost(out,fqdn,in)) > 0 ) return r; 
   if (dns_resolvconfrewrite(&rules) < 0) return DNS_INT;
-  return dns_ip6_qualify_rules(out,fqdn,in,&rules);
+  return dns_ip_qualify_rules(out,fqdn,in,&rules);
 }

@@ -2,6 +2,8 @@
 #define DNSRESOLV_H
 
 /*
+ *  Revision 20200719, Erwin Hoffmann
+ *  - added dns_qualify_localhost function including fqdn retrun
  *  Revision 20190730, Erwin Hoffmann
  *  - revised DNS_* return codes to make them compliant with ucspi-*
  *  Revision 20190430, Erwin Hoffmann
@@ -69,6 +71,10 @@
 #define DNS_T_ANY "\0\377"
 #define DNS_T_CAA "\1\1"
 
+#define LOCALHOST "localhost" /* no clear distinction IPv4/IPv6 */
+#define IP4_LOOPBACK "ipv4-loopback"
+#define IP6_LOOPBACK "ipv6-loopback"
+
 struct dns_transmit {
   char *query;  /* 0, or dynamically allocated */
   unsigned int querylen;
@@ -99,6 +105,9 @@ extern int dns_domain_suffix(const char *,const char *);
 extern unsigned int dns_domain_suffixpos(const char *,const char *);
 extern int dns_domain_fromdot(char **,const char *,unsigned int);
 extern int dns_domain_todot_cat(stralloc *,const char *);
+extern int dns_ip_qualify(stralloc *,stralloc *,const stralloc *);
+extern int dns_ip_qualify_rules(stralloc *,stralloc *,const stralloc *,const stralloc *);
+extern int dns_ip_qualify_localhost(stralloc *,stralloc *,const stralloc *);
 
 extern unsigned int dns_packet_copy(const char *,unsigned int,unsigned int,char *,unsigned int);
 extern unsigned int dns_packet_getname(const char *,unsigned int,unsigned int,char **);

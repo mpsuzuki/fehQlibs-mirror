@@ -1,5 +1,6 @@
 #include <stdlib.h>
 #include <errno.h>
+#include <limits.h>
 #include "byte.h"
 #include "alloc.h"
 
@@ -13,6 +14,13 @@ static unsigned int avail = SPACE; /* multiple of ALIGNMENT; 0<=avail<=SPACE */
 
 /*@null@*//*@out@*/char *alloc(unsigned int n) {
   char *x;
+
+/* Guninski exploit + patch from Qualsys (CVE-2005-1513) */
+
+  if (n >= (INT_MAX >> 3)) {
+    errno = ENOMEM;
+    return 0;
+  }
 
   n = ALIGNMENT + n - (n & (ALIGNMENT - 1)); /* XXX: could overflow */
   if (n <= avail) { avail -= n; return space + avail; }

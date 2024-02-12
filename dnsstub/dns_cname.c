@@ -34,7 +34,7 @@ int dns_cname_packet(stralloc *out,const char *buf,unsigned int len)
     if (byte_equal(header,2,DNS_T_CNAME))
       if (byte_equal(header + 2,2,DNS_C_IN)) {
         if (!dns_packet_getname(buf,len,pos,&q)) return DNS_ERR;
-        if (!dns_domain_todot_cat(out,q)) return DNS_ERR;
+        if (dns_domain_todot_cat(out,q) <= 0) return DNS_ERR;
       }
     pos += datalen;
     ++ranswers;
@@ -47,7 +47,7 @@ int dns_cname(stralloc *out,stralloc *fqdn)
 {
   int rc; 
 
-  if (!dns_domain_fromdot(&q,fqdn->s,fqdn->len)) return DNS_ERR;
+  if (dns_domain_fromdot(&q,fqdn->s,fqdn->len) <= 0) return DNS_ERR;
   if (dns_resolve(q,DNS_T_CNAME) < 0) return DNS_ERR;
   if ((rc = dns_cname_packet(out,dns_resolve_tx.packet,dns_resolve_tx.packetlen)) < 0) return DNS_ERR;
   dns_transmit_free(&dns_resolve_tx);

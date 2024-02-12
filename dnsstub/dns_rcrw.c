@@ -74,7 +74,7 @@ static int init(stralloc *rules)
   if (i) {
     if (!stralloc_append(&data,"\n")) return DNS_MEM;
     i = 0;
-    for (j = 0;j < data.len;++j)
+    for (j = 0; j < data.len; ++j)
       if (data.s[j] == '\n') {
         if (byte_equal("search ",7,data.s + i) || 
             byte_equal("search\t",7,data.s + i) || 

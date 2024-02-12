@@ -13,6 +13,7 @@
   @brief setup listening socket
 */
 
+int ipv4socket;
 
 int socket_accept(int s,char ip[16],uint16 *port,uint32 *scope_id)
 {
@@ -29,11 +30,11 @@ int socket_accept(int s,char ip[16],uint16 *port,uint32 *scope_id)
     byte_copy(ip+12,4,(char *)&sa4->sin_addr);
     uint16_unpack_big((char *)&sa4->sin_port,port);
     if (scope_id) *scope_id = 0;
-    return fd;
-  }
-  byte_copy(ip,16,(char *)&sa.sin6_addr);
-  uint16_unpack_big((char *)&sa.sin6_port,port);
-  if (scope_id) *scope_id = sa.sin6_scope_id;
+  } else {
+    byte_copy(ip,16,(char *)&sa.sin6_addr);
+    uint16_unpack_big((char *)&sa.sin6_port,port);
+    if (scope_id) *scope_id = sa.sin6_scope_id;
+  } 
 
   return fd;
 }
@@ -82,5 +83,3 @@ int socket_nodualstack(int s)
 
   return setsockopt(s,IPPROTO_IPV6,IPV6_V6ONLY,&opt,sizeof(opt));
 }
-
-
