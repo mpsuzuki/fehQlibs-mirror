@@ -51,15 +51,15 @@ It reads a DNS packet of length \fIlen\fR from
 puts the addresses into \fIout\fR.
 
 .B dns_ip[4|6]
-looks up 4/16-byte IPv6 addresses for the fully-qualified domain name of
+looks up 4/16-byte IPv6 addresses for the fully qualified domain name of
 \fIfqdn\fR.  It puts the concatenation of the IPv[4|6] addresses into \fIout\fR and
 returns the number of received answers for \fIfqdn\fR or \fI0\fR if none are replied.
 If the domain does not exist in DNS, or has no IP addresses,
-\fIout\fR will be empty.  More generally, if \fIfqdn\fR is a
-dot-separated sequence of dotted-decimal IP addresses, 
-.B dns_ip[4|6]
-puts those IP addresses into out without checking DNS. 
-Brackets may appear inside the dotted-decimal IP addresses; they are ignored.
+\fIout\fR will be empty.  More generally, if \fIfqdn\fR is considered by
+.B dns_ip4
+to be a dotted-decimal IPv4 address, it is provissioned as \fIout\fR 
+without checking the DNS while returning \fI1\fR. 
+Brackets may enclose the dotted-decimal IP address; they are ignored.
 
 .B dns_name[4|6]_packet 
 is a low-level component of 

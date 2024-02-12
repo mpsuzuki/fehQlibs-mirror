@@ -62,3 +62,5 @@ fehQlibs-21
 		Fixed header and man page for env functions and included fd_coe in man fd.
 fehQlibs-22
 		Changed ipX_bytestring to return correctly the number of bytes processed.
+fehQlibs-22a
+		dns_ip A lookup recognizes now 'composit' ip/fqdn correctly; ie. 1.2.3.4.example.com.

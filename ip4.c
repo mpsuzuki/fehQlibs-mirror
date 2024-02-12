@@ -90,7 +90,7 @@ unsigned int ip4_scan(const char *s,char ip[4])
         parse IPv4 address string enclosed in brackets and convert to IP address array
  @param input:  IPv4 char array
         output: IPv4 char array
- @return int lenth of ip_address (ok > 0)
+ @return int length of ip_address (ok > 0)
  */
 
 unsigned int ip4_scanbracket(const char *s,char ip[4])

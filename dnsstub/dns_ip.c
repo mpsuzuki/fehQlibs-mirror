@@ -49,7 +49,8 @@ int dns_ip4_packet(stralloc *out,const char *buf,unsigned int len)
 int dns_ip4(stralloc *out,stralloc *fqdn)
 {
   unsigned int i;
-  char code;
+  char code = 0;
+	int dot = 0;
   char ch; 
   char ip[4];
   int r;
@@ -58,11 +59,17 @@ int dns_ip4(stralloc *out,stralloc *fqdn)
   if (!stralloc_copys(out,"")) return DNS_MEM;
   if (!stralloc_readyplus(fqdn,1)) return DNS_MEM;
 
-  fqdn->s[fqdn->len] = 0;		/* if FQDN is just IPv4 */
-  if (ip4_scan(fqdn->s,ip) || ip4_scanbracket(fqdn->s,ip)) {
-    if (!stralloc_copyb(out,ip,4)) return DNS_MEM;
-    return 1;
-  }
+  fqdn->s[fqdn->len] = 0;		/* test FQDN string */
+	for (i = 1; i < fqdn->len; i++) {
+	  if (fqdn->s[i] >= '_') { code = 127; break; }
+	  if (fqdn->s[i] == '.') dot++;
+	}
+
+	if (code != 127 && dot == 3) /* if FQDN is just IPv4 */
+    if (ip4_scan(fqdn->s,ip) || ip4_scanbracket(fqdn->s,ip)) {
+      if (!stralloc_copyb(out,ip,4)) return DNS_MEM;
+      return 1;
+    }
 
   code = 0;
   for (i = 0; i <= fqdn->len; ++i) {

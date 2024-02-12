@@ -1,5 +1,5 @@
-./BUILD = 84894e1c4f509fd4919cd8f1d9c6a61f
-./CHANGELOG = 9aca8fb7c39dc73460ce6387fa38c4ce
+./BUILD = 822a08bd50c6fe51769e0a7da230ac55
+./CHANGELOG = 283134a09980126bb578c39460c5da03
 ./CONTENT = 3478f3a562d003b32aa0762e93a75b26
 ./LICENSE = 43df073a04022f63913c379646905da6
 ./Makefile = abba48d9d52ca48f050208231de5c783
@@ -23,7 +23,7 @@
 ./dnsstub/dns_dfd.c = 149da24f7b57761d9c0eec3278b63fb0
 ./dnsstub/dns_domain.c = e79ee91862f5d06ec892a228489aca3f
 ./dnsstub/dns_dtda.c = f9fc0ba7ea3cdaad5e85c0d0edd479a7
-./dnsstub/dns_ip.c = 4901780560b2d80945bd3933b0bbfb02
+./dnsstub/dns_ip.c = 811eec1cfe97536d6ea9a1d5e48801ce
 ./dnsstub/dns_ipq.c = 273479eeae125ffbddaf4e95fbcfe0f0
 ./dnsstub/dns_mx.c = 01c29dde656fbaf7ab19c4c3a28664ac
 ./dnsstub/dns_name.c = 31cb8e08404ab22dca6c6098a2fc9317
@@ -88,7 +88,7 @@
 ./include/wait.h = fc9c628f22a862bb9af69fdd7a6b61a8
 ./install = f6468f1ce0a61e581df2d3278d4f9d24
 ./iopause.c = 7cbd896fbcca2c26b218a3299543c905
-./ip4.c = 2414d1404fc467db7a05de1745652515
+./ip4.c = 8cf7ae24e43da943e4695f5cb4a50f6c
 ./ip6.c = 16192261767a3056adc84c10bbcaf8ce
 ./lock.c = 50aa9fca4611c86f943c49256b7a001a
 ./logmsg.c = 7335546b87caf29a8fbf41a8ac89169c
@@ -100,7 +100,7 @@
 ./man/cdbmake.3 = 54e604b19d139b0c5b451b86c58802d5
 ./man/cdbread.3 = 81a48e1258f4919861b7537a7759c0a5
 ./man/constmap.3 = 3308860b3c8b2032dff86d64aab332d0
-./man/dns.3 = 5503fdf078a495832223899314128d1c
+./man/dns.3 = b1d43ec67464117b148764fbd8f37f67
 ./man/dnsstub.3 = 63081eeab017fbf754f854010d8b1dc4
 ./man/env.3 = 27c3a784e43a5ec37c2918014bcac3f8
 ./man/error.3 = 2d2b4e9800b73983848581814065b074
