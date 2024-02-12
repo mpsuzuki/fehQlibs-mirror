@@ -35,7 +35,7 @@ appropriately.
   uint16 \fIport\fR;
 
   if (socket_remote(s,ip,&port,0) == -1)
-    strerr_die2sys(111,FATAL,"unable to get remote address: ");
+    err_tmp("",111,"unable to get remote address: ");
 .SH "SEE ALSO"
 socket_if(3), 
 socket_bind(3), 

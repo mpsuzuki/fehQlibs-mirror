@@ -41,7 +41,7 @@ appropriately, without allocating any resources.
 
   if (ip6_isv4mapped(remoteip)) {
     t = socket_tcp4();
-    socket_bind4(t,localip,0);
+    socket_bind4(t,localip + 12,0);
   } else {
     t = socket_tcp6();
     socket_bind6(t,localip,0,0);

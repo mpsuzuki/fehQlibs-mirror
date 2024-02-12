@@ -63,8 +63,8 @@ static int init(char ip[QUERY_MAXIPLEN],uint32 sid[QUERY_MAXNS])
               if (ip4_scan(data.s + i,ip4)) {
                 if (byte_equal(ip4,4,"\0\0\0\0"))
                   byte_copy(ip4,4,"\177\0\0\1");
-                byte_copy(ip+iplen,12,V4mappedprefix);
-                byte_copy(ip+iplen+12,4,ip4);
+                byte_copy(ip + iplen,12,V4mappedprefix);
+                byte_copy(ip + iplen + 12,4,ip4);
                 sid[k] = 0; iplen += 16; k++;
               } else if (ip6_ifscan(data.s + i,ip + iplen,&ifname)) {
                 if (ifname.len > 2) sid[k] = socket_getifidx(ifname.s);

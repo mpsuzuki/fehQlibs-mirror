@@ -39,9 +39,9 @@ appropriately, without allocating any resources.
   char \fIremoteip\fR[16];
   uint16 \fIp\fR; // port
 
-  if (ip6_isv4mapped(ip)) {
+  if (ip6_isv4mapped(remoteip)) {
     u = socket_udp4();
-    socket_bind4(u,localip,p);
+    socket_bind4(u,localip + 12,p);
   } else
     u = socket_udp4();
     socket_bind4(u,localip,p,0);

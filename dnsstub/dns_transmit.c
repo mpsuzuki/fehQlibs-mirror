@@ -109,16 +109,29 @@ void dns_transmit_free(struct dns_transmit *d)
   packetfree(d);
 }
 
-int randombind(struct dns_transmit *d)
+int randombind6(struct dns_transmit *d)
 {
   int j;
  
   for (j = 0; j < 10; ++j) {
-    if (socket_bind(d->s1 - 1,d->localip,1025 + dns_random(64510),d->scope_id) == 0)
+    if (socket_bind6(d->s1 - 1,d->localip,1025 + dns_random(64510),d->scope_id) == 0)
       return 0;
   } 
+  if (socket_bind6(d->s1 - 1,d->localip,0,d->scope_id) == 0)
+    return 0;
 
-  if (socket_bind(d->s1 - 1,d->localip,0,d->scope_id) == 0)
+  return DNS_COM;
+}
+
+int randombind4(struct dns_transmit *d)
+{
+  int j;
+  
+  for (j = 0; j < 10; ++j) {
+    if (socket_bind4(d->s1 - 1,d->localip + 12,1025 + dns_random(64510)) == 0)
+      return 0;
+  } 
+  if (socket_bind4(d->s1 - 1,d->localip + 12,0) == 0)
     return 0;
 
   return DNS_COM;
@@ -136,10 +149,16 @@ int thisudp(struct dns_transmit *d)
       if (byte_diff(ip,16,V6localnet)) {
         d->query[2] = dns_random(256);
         d->query[3] = dns_random(256);
-  
-        d->s1 = 1 + socket_udp();
-        if (!d->s1) { dns_transmit_free(d); return DNS_COM; }
-        if (randombind(d) < 0) { dns_transmit_free(d); return DNS_COM; }
+ 
+        if (ip6_isv4mapped(ip)) {
+           d->s1 = 1 + socket_udp4();
+           if (!d->s1) { dns_transmit_free(d); return DNS_COM; }
+           if (randombind4(d) < 0) { dns_transmit_free(d); return DNS_COM; }
+        } else {
+           d->s1 = 1 + socket_udp6();
+           if (!d->s1) { dns_transmit_free(d); return DNS_COM; }
+           if (randombind6(d) < 0) { dns_transmit_free(d); return DNS_COM; }
+			  }
 
         if (byte_equal(ip,2,V6linklocal) && !d->scope_id) 
           d->scope_id = getscopeid(d,ip);
@@ -188,9 +207,15 @@ int thistcp(struct dns_transmit *d)
       d->query[2] = dns_random(256);
       d->query[3] = dns_random(256);
 
-      d->s1 = 1 + socket_tcp();
-      if (!d->s1) { dns_transmit_free(d); return DNS_COM; }
-      if (randombind(d) < 0) { dns_transmit_free(d); return DNS_COM; }
+      if (ip6_isv4mapped(ip)) {
+        d->s1 = 1 + socket_tcp4();
+        if (!d->s1) { dns_transmit_free(d); return DNS_COM; }
+        if (randombind4(d) < 0) { dns_transmit_free(d); return DNS_COM; }
+      } else {
+         d->s1 = 1 + socket_tcp6();
+         if (!d->s1) { dns_transmit_free(d); return DNS_COM; }
+         if (randombind6(d) < 0) { dns_transmit_free(d); return DNS_COM; }
+		  }
   
       taia_now(&now);
       taia_uint(&d->deadline,10);
@@ -241,7 +266,8 @@ int dns_transmit_start(struct dns_transmit *d,const char servers[QUERY_MAXIPLEN]
   if (!d->query) return DNS_COM;
  
   uint16_pack_big(d->query,len + 16);
-  byte_copy(d->query + 2,12,flagrecursive ? "\0\0\1\0\0\1\0\0\0\0\0\0" : "\0\0\0\0\0\1\0\0\0\0\0\0gcc-bug-workaround");
+  byte_copy(d->query + 2,12,flagrecursive ? "\0\0\1\0\0\1\0\0\0\0\0\0" : \
+                                            "\0\0\0\0\0\1\0\0\0\0\0\0gcc-bug-workaround");
   byte_copy(d->query + 14,len,q);
   byte_copy(d->query + 14 + len,2,qtype);
   byte_copy(d->query + 16 + len,2,DNS_C_IN);

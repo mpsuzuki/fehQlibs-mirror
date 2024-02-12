@@ -83,12 +83,12 @@ appropriately.
   uint16 \fIp\fR;
 
   if ((s = socket_tcp()) == -1)
-    strerr_die2sys(111,FATAL,"unable to create TCP socket: ");
+    err_tmp("",111,"unable to create TCP socket: ");
   r = socket_ipoptionskill(s);
   if (socket_bind_reuse(s,(char *)V6localnet,8002,0) == -1)
-    strerr_die2sys(111,FATAL,"unable to bind: ");
+    err_tmp("",111,"unable to bind: ");
   if (socket_listen(s,1) == -1)
-    strerr_die2sys(111,FATAL,"unable to listen: ");
+    err_tmp("",111,"unable to listen: ");
     
   t = socket_tcp();
   socket_bind(t,ip,p,0);

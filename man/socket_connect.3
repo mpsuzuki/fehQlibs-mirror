@@ -70,7 +70,7 @@ succeeded, thus \fIs\fR became writable or not.
   socket_connect(s,remoteip,p,0);
   
   if (socket_connected(s) != 1)
-    strerr_die2sys(111,fatal,"unable to setup TCP connection: ");
+    err_tmp(""111,fatal,"unable to setup TCP connection: ");
 .SH "RETURN CODES"
 .BR socket_connect4 ,
 .BR socket_connect6 

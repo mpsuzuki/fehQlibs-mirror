@@ -83,7 +83,7 @@ int timeoutconn(int s,char ip[16],uint16 port,unsigned int timeout,uint32 netif)
   int r;
 
   if (ip6_isv4mapped(ip)) 
-    r = socket_connect4(s,ip,port);
+    r = socket_connect4(s,ip + 12,port);
   else
     r = socket_connect6(s,ip,port,netif);
 

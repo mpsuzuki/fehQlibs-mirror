@@ -49,3 +49,7 @@ fehQlibs-16+:	GCC 10.2 conformance; ipv4socket definitition removed in socket_se
 fehQlibs-17:	Removed dependency on ipv4socket entirely. 
 		Reworked socket interface + doc. Removed obsolete dns_sortip() function.
 		genalloc.h is now separate. Installation of man pages described.
+fehQlibs-18
+		Due to problems binding with IPv4-mapped IPv6 addresses for a DNS lookup,
+		splitted up randombind into randombind4 and randombind6.
+		socket operations on IPv4 use IPv4 address only. (tx. Kouichi).

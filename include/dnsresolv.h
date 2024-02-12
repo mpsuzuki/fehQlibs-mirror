@@ -152,6 +152,7 @@ extern int dns_ip4_qualify(stralloc *,stralloc *,const stralloc *);
 #define DNS_NAME4_DOMAIN 31
 extern int dns_name4_domain(char *,const char *);
 extern int dns_name4(stralloc *,const char *);
+extern int randombind4(struct dns_transmit *);
 
 /* IPv6 specific */
 
@@ -170,13 +171,13 @@ extern int dns_cname_packet(stralloc *,const char *,unsigned int);
 extern int dns_cname(stralloc *,stralloc *);
 
 extern int dns_transmit_start6(struct dns_transmit *,const char *,int,const char *,const char *,const char *,const uint32 *);
+extern int randombind6(struct dns_transmit *);
 
 /* General */
 
 extern void socketfree(struct dns_transmit *);
 extern void queryfree(struct dns_transmit *);
 extern void packetfree(struct dns_transmit *);
-extern int randombind(struct dns_transmit *);
 extern int serverwantstcp(const char *,unsigned int);
 extern int serverfailed(const char *,unsigned int);
 extern int getscopeid(const struct dns_transmit *,const char *);
