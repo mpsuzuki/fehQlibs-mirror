@@ -3,13 +3,6 @@
 #include "byte.h"
 #include "dnsresolv.h"
 
-/**
-	@file dns_txt.c
-	@author djb
-	@source ucspi-tcp
-	@brief DNS TXT query
-*/
-
 int dns_txt_packet(stralloc *out,const char *buf,unsigned int len)
 {
   unsigned int pos;
@@ -35,13 +28,12 @@ int dns_txt_packet(stralloc *out,const char *buf,unsigned int len)
     if (byte_equal(header,2,DNS_T_TXT))
       if (byte_equal(header + 2,2,DNS_C_IN)) {
         if (pos + datalen > len) return DNS_ERR;
-        txtlen = 0;
-        for (i = 0; i < datalen; ++i) {
+        txtlen = (unsigned char) buf[pos];
+        for (i = 1; i < datalen; ++i) {
           ch = buf[pos + i];
-          if (!txtlen)
-            txtlen = (unsigned char) ch;
+          if (i == txtlen + 1)     // next label
+            txtlen += (unsigned char) ch + 1;
           else {
-            --txtlen;
             if (ch < 32) ch = '?';
             if (ch > 126) ch = '?';
             if (!stralloc_append(out,&ch)) return DNS_MEM;
@@ -60,7 +52,7 @@ static char *q = 0;
 
 int dns_txt(stralloc *out,const stralloc *fqdn)
 {
-  int rc;
+  int rc; 
 
   if (dns_domain_fromdot(&q,fqdn->s,fqdn->len) <= 0) return DNS_ERR;
   if (dns_resolve(q,DNS_T_TXT) < 0) return DNS_ERR;
@@ -68,5 +60,5 @@ int dns_txt(stralloc *out,const stralloc *fqdn)
   dns_transmit_free(&dns_resolve_tx);
   dns_domain_free(&q);
 
-  return rc; 
+  return rc;
 }

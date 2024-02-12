@@ -49,6 +49,8 @@ prot.o            prot.h
 byte.o            byte.h        byte.3
                   base64.h
 readclose.o       readclose.h
+uint8p.o          uint_t.h
+uint16p.o         uint_t.h
 uint32p.o         uint_t.h
 uint64p.o         uint_t.h
 uint128p.o        uint_t.h

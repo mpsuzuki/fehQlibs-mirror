@@ -47,3 +47,16 @@ int socket_send(int s,const char *buf,unsigned int len,const char ip[16],uint16 
   else 
     return socket_send6(s,buf,len,ip,port,scope_id);
 } 
+
+int socket_broadcast4(int s,const char *buf,unsigned int len,uint16 port)
+{
+  struct sockaddr_in sa;
+
+  byte_zero(&sa,sizeof(sa));
+
+  sa.sin_family = AF_INET;
+  uint16_pack_big((char *)&sa.sin_port,port);
+  byte_copy((char *)&sa.sin_addr,4,V4broadcast);
+
+  return sendto(s,buf,len,0,(struct sockaddr *)&sa,sizeof(sa));
+}

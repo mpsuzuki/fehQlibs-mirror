@@ -58,6 +58,7 @@ unsigned int ia4_fmt(char *,char [4]);
 
 const static char V4loopback[4] = {127,0,0,1};
 const static char V4localnet[4] = {0,0,0,0};
+const static char V4broadcast[4] = {255,255,255,255};
 
 /***
  * Compactified IPv6 addresses are really ugly to parse.

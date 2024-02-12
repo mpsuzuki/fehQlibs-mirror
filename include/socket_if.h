@@ -1,7 +1,9 @@
 #ifndef SOCKETIF_H
 #define SOCKETIF_H
 
-/*  Revision 20210828, Erwin Hoffmann
+/*  Revsision 20220608
+ *  - removed obsolete socket_local4() and socket_remote4()
+ *  Revision 20210828, Erwin Hoffmann
  *  - added socket_accept4()
  *  Revision 20210226, Erwin Hoffmann
  *  - removed dependency on ipv4socket (loose coupling)
@@ -25,9 +27,12 @@ extern int socket_accept4(int,char [4],uint16 *);
 extern int socket_bind4(int,const char [4],uint16);
 extern int socket_bind4_reuse(int,const char [4],uint16);
 extern int socket_connect4(int,const char [4],uint16);
-extern int socket_local4(int,char *,uint16 *);
-extern int socket_remote4(int,char *,uint16 *);
 extern int socket_send4(int,const char *,unsigned int,const char [4],uint16);
+extern int socket_broadcast(int,const char *,unsigned int,uint16);
+
+/* Backward compatibility */
+#define socket_local4 socket_local
+#define socket_remote4 socket_remote
 
 /* IPv6 only */
 extern int socket_bind6(int,const char [16],uint16,uint32);

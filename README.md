@@ -96,6 +96,8 @@ These libs are of type ELF64 or ELF32 depending on the system.
 Use 'ar -t' to get the included members of the static libs.
 Use 'nm' to view the members and symbols of the libs.
 
+The shared object libs are known NOT not work on MacOS.
+
 
 Man pages
 ---------
@@ -117,8 +119,9 @@ Compilation
 
 Starting with version fehQlibs-15b, GCC 10 and Clang compatibility is provided, 
 which means ISO C conformance.
-fehQlibs-17 avoid strong coupling with application routines previously introduced by
-'ipv4socket' and decouples stralloc.h from genalloc.h (to be included separately).
+Since fehQlibs-17 strong coupling of application routines previously introduced 
+by the global (external) 'ipv4socket' variable are avoided. 
+stralloc.h is decoupled from genalloc.h (to be included separately).
 This respects the GCC 10 compilation unit behavior.
 
 
@@ -126,4 +129,4 @@ This respects the GCC 10 compilation unit behavior.
 
 Updated: 20170329, Kai Peter
 
-Updated: 202010307, Erwin Hoffmann
+Updated: 20220706, Erwin Hoffmann

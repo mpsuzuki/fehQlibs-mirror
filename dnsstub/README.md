@@ -1,10 +1,14 @@
-Stub Resolver:
+/*! \mainpage
+
+Stub Resolver
+=============
 
 Simple DJBDNS stub-resolver based on 'djbdns-1.05(IPv6)' allowing for each 
 calling application individually to include up to 16 DNSCACHEIP(s) 
 as DNS forwarding/resolving servers to be tried sequentially.
 
-IP Addresses:
+IP Addresses
+------------
 
 Here,
  - global IPv6,
@@ -17,7 +21,8 @@ can be specified. The IPv4 format could be either a
 In any case, compactified IPv6 addresses are understood.
 IPv4/IPv6 addresses in brackets are understood by dns_ip.
 
-Resolver Call:
+Resolver Call
+-------------
 
 If $DNSCACHEIP is not provided as environment variable, the stub-resolver
 will use the system-wide 
@@ -26,7 +31,8 @@ file; however now without the capability for IPv6 LLU addresses.
 While IPv4-mapped IPv6 addresses are supported here by default as well, 
 care has to taken not to jeopardize other client's usage.
 
-Name Qualification:
+Name Qualification
+------------------
 
 If provided, the stub-resolver uses either a system-wide configuration file
   - /etc/dnsrewritefile or assumes this file to available as given in
@@ -50,15 +56,18 @@ specified within $LOCALDOMAIN separated by blanks.
 See: https://cr.yp.to/djbdns/qualify.html
 
 
-Specific DNS Record type lookup:
+Specific DNS Record type lookup
+-------------------------------
 
 * dns_ip (A, AAAAA)
 * dns_name (PTR)
 * dns_cname (CNAME)
-* dns_txt (TXT)
+* dns_txt (TXT) -- now considering several 'labels'
 * dns_mx (MX)
 
-Internals:
+
+Internals
+---------
 
 * UDP message size:
 Unlike other implementations, this DNS stub-resolver supports UDP packet 
@@ -75,12 +84,17 @@ while handling IPv4 and IPv6 addresses separately.
 * NS qualification/sorting for NS replies:
 NS qualification is not supported (yet), thus we use a randomly sorted
 list of NS IP addresses. 
-In case ipv4socket > 0; only NS with IPv4 addresses are considered.
 
 * Query/Reply to/from DNS Cache servers/forwarders:
 Neither message (CurveDNS) nor transport layer (TLS) encryption is provided;
 the sub-resolver 'trusts' it's upstream caches/forwarders. We recommend to
 setup communication on private IPv4/IPv6 addresses; if applicable.
+
+* DNS TXT Records:
+The label substructure is now recognized in the RDATA section;
+each label may have the size of 255 byte.
+The length information is excluded from the output. 
+Only printable characters are recognized in the output.
 
 * Return Codes:
 Different from DJB's initial routines, the DNS front-end routines
@@ -96,10 +110,10 @@ For return codes < 0, the following conventions have been applied:
 
 	include/dnsresolv.h
 
-#define DNS_MEM  -1
-#define DNS_ERR  -2              /* parsing errors and others */
-#define DNS_COM  -3              /* (socket) communication errors */
-#define DNS_INT  -4              /* internal errors */
+\#define DNS_MEM  -1
+\#define DNS_ERR  -2              /* parsing errors and others */
+\#define DNS_COM  -3              /* (socket) communication errors */
+\#define DNS_INT  -4              /* internal errors */
 
 The modification of the return code is typically not problematic,
 since mostly just rc = -1 is checked.
@@ -116,10 +130,10 @@ one shoud use the more general syntax
 to check for 'negative' results, allowing further actions
 and refinements given the calling sequence.
 
-In this (fehQlibs-12x) version, return codes are stil checked for '-1'.
 
 
-Environment Variables Read:
+Environment Variables Read
+--------------------------
 
 $DNSCACHEPIP	The upstream resolver's IP[v4|v6] addresses (up to 32).
 	IPv6 LLU addresses may be suffixed with the interface name.
@@ -131,24 +145,24 @@ $LOCALDOMAIN 	Additional local domain name appended to unqualified
 
 Sample for the file /etc/dnsrewrite:
 
-#annything.local -> me
--.example.com:me
-# me -> 127.0.0.1
-=me:127.0.0.1
-# any.name.a -> any.name.af.mil
-*.a:.af.mil
-# any-name-without-dots -> any-name-without-dots.heaven.af.mil
-?:.heaven.af.mil
-# remove trailing dot
-*.:
+\#annything.local -> me
+\-.example.com:me
+\# me -> 127.0.0.1
+\=me:127.0.0.1
+\# any.name.a -> any.name.af.mil
+\*.a:.af.mil
+\# any-name-without-dots -> any-name-without-dots.heaven.af.mil
+\?:.heaven.af.mil
+\# remove trailing dot
+\*.:
 
 and DJB's explanations are given here:
 
 Instructions are followed in order, each at most once. There are four types of instructions:
 
-=post:new means that the host name post is replaced by new.
-*post:new means that any name of the form prepost is replaced by prenew.
-?post:new means that any name of the form prepost, where pre does not contain dots or brackets, is replaced by prenew.
--post:new means that any name of the form prepost is replaced by new.
+\=post:new means that the host name post is replaced by new.
+\*post:new means that any name of the form prepost is replaced by prenew.
+\?post:new means that any name of the form prepost, where pre does not contain dots or brackets, is replaced by prenew.
+\-post:new means that any name of the form prepost is replaced by new.
 
-Erwin Hoffmann, October 2020.
+Erwin Hoffmann, July 2022.

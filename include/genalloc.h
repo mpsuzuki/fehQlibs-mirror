@@ -15,7 +15,7 @@
    entire field members or appending the existing field.
    GEN_ALLOC types care of currently used and/or allocated bytes of field.
 
-Makros: 
+Macros: 
   GEN_ALLOC_ready    (ta,type,field,len,a,i,n,x,base,ta_ready)
   GEN_ALLOC_readyplus(ta,type,field,len,a,i,n,x,base,ta_rplus)
   GEN_ALLOC_append   (ta,type,field,len,a,i,n,x,base,ta_rplus,ta_append) 

@@ -11,10 +11,10 @@ check:
 clean:
 	rm -f `cat TARGETS`
 
-dnsresolv.a:
-# dns_domain.c dns_dtda.c dns_ip.c dns_ipq.c dns_name.c \
-#dns_nd.c dns_packet.c dns_random.c dns_rcip.c dns_rcrw.c dns_resolve.c \
-#dns_sortip.c dns_transmit.c dns_txt.c
+dnsresolv.a: \
+dns_domain.c dns_dtda.c dns_ip.c dns_ipq.c dns_name.c \
+dns_nd.c dns_packet.c dns_random.c dns_rcip.c dns_rcrw.c dns_resolve.c \
+dns_sortip.c dns_transmit.c dns_txt.c
 	$(COMPILE) $(CCFLAGS) dns_domain.c dns_dfd.c dns_dtda.c dns_ip.c dns_ipq.c \
 	dns_mx.c dns_name.c dns_nd.c dns_packet.c dns_random.c dns_rcip.c \
 	dns_rcrw.c dns_resolve.c dns_sortip.c dns_transmit.c dns_txt.c dns_cname.c 

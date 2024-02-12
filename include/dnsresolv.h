@@ -5,7 +5,7 @@
  *  Revision 20210922, Erwin Hoffmann
  *  - Added constants MAXMSGSIZE and MAXSEGMENT - not used yet
  *  Revision 20210401, Erwin Hoffmann
- *  - removed obsolte dns_sortip(); not going to work with GCC-10 anyway
+ *  - removed obsolete dns_sortip(); not going to work with GCC-10 anyway
  *  Revision 20200719, Erwin Hoffmann
  *  - added dns_qualify_localhost function including fqdn retrun
  *  Revision 20190730, Erwin Hoffmann

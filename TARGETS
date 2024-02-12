@@ -72,6 +72,7 @@ uint128p.o
 uint16p.o
 uint32p.o
 uint64p.o
+uint8p.o
 wait.a
 wait.o
 libdnsresolv.so

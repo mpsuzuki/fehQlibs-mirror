@@ -26,13 +26,13 @@ int logmsg(const char *who, int ecode, unsigned int classs, char *msg)
 and potentially terminates the calling program, depending on the \fIclass\fR given.
 \fIwho\fR is the name of the program, \fIecode\fR is an error code, 
 \fIclass\fR determines the behavior upon call and \fImsg\fR is the logging message. 
-Read "error.h" to learn related constants.
+Read "error.h" to learn more about related constants.
 .SH ECODE
 \fIecode\fR is the error code and subject to be displayed in the log file and
-potentially used upon exit iif the \fIclass\fR equals \fBERROR\fR, \fBFATAL\fR, or \fBDROP\fR.
+potentially used upon exit if the \fIclass\fR equals \fBERROR\fR, \fBFATAL\fR, or \fBDROP\fR.
 
 To avoid conflicts with syscall error codes, appplication defined error codes should be negative. 
-The values \fI-15\fR, \fI-100\fR and \fI-111\fR are reserved for backwards compatibility. 
+The values \fI-15\fR, \fI-100\fR and \fI-111\fR are reserved for backward compatibility. 
 .SH CLASS
 The \fIclass\fr parameter indicates how the application handles exceptions and displays the
 log message.
@@ -41,7 +41,7 @@ o
 \fBLOG\fR, \fBINFO\fR, \fBALERT\fR, \fBWARN\fR - display message and continue operation
 .TP 4
 o
-\fBDROP\fR - display warning message and continue while going to the calling program
+\fBDROP\fR - display warning message and continue while returning to the calling program
 .TP 4
 o
 \fBUSAGE\fR, \fBSYNTAX\fR, \fBFATAL\fR, \fBERROR\fR 

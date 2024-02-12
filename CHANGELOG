@@ -54,4 +54,6 @@ fehQlibs-18
 		splitted up randombind into randombind4 and randombind6.
 		socket operations on IPv4 use IPv4 address only. (tx. Kouichi).
 fehQlibs-19
-		Provided socket_accept4 again to avoid IPv4-mapped IPv6 adress binding problems.
+		Provided socket_accept4 again to avoid IPv4-mapped IPv6 address binding problems.
+fehQlibs-20
+		Added uint8p.c functions. Fixed dns_txt.c for multiple labels in RDATA section.
