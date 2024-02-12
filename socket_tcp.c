@@ -19,7 +19,7 @@
 	@brief setup TCP stream socket
 */
 
-int ipv4socket;
+// int ipv4socket;
 
 int socket_tcp4(void)
 {

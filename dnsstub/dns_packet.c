@@ -6,7 +6,7 @@
 	@author djb
 	@source ucspi-tcp
 	@brief DNS low level packet routine
-	@comment DNS should have used LZ77 instead of its own sophomoric compression algorithm.
+	@brief DNS should have used LZ77 instead of its own sophomoric compression algorithm.
 */
 
 unsigned int dns_packet_copy(const char *buf,unsigned int len,unsigned int pos,char *out,unsigned int outlen)

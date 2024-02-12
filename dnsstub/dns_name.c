@@ -8,7 +8,7 @@
 	@file dns_name.c
 	@author djb, fefe, feh
 	@source ucspi-tcp
-	@brief dns name query (ptr)
+	@brief DNS name query (ptr)
 */
 
 static char *q = 0;

@@ -5,7 +5,7 @@
 	@author djb, kp, feh
 	@source qmail, djbdns6
 	@brief additional types and pack routines
-	@comment define basic integer types and size through <stdint.h>
+	@brief define basic integer types and size through <stdint.h>
 */
 
 #ifndef UINT16_H

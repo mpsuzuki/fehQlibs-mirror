@@ -14,12 +14,12 @@
 	@authors djb, fefe, feh
 	@source qlibs
 	@brief DNS query function 
-	@comment scope_ids[32] -> 32 LLU root servers supported 
+	@brief scope_ids[32] -> 32 LLU root servers supported 
 */
 
 #define DNSPORT 53
 
-int ipv4socket;
+// int ipv4socket;
 uint32 scope_ids[QUERY_MAXNS];
 
 static const int timeouts[5] = { 1, 2, 4, 8, 16 }; /* quadratic, not exponentially */

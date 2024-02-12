@@ -13,7 +13,7 @@
 	@brief querying local and remote info for socket
 */
 
-int ipv4socket;
+// int ipv4socket;
 
 int socket_local(int s,char ip[16],uint16 *port,uint32 *scope_id)
 {

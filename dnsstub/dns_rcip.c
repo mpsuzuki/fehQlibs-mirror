@@ -10,7 +10,7 @@
 	@file dns_rcip.c
 	@author djb, fefe, feh
 	@source ucspi-tcp
-	@brief dns receive for query
+	@brief DNS receive for query
 */
 
 static stralloc data = {0};

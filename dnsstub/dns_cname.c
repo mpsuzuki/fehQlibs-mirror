@@ -7,7 +7,7 @@
 /**
 	@file dns_cname.c
 	@author feh
-	@brief dns cname lookup
+	@brief DNS cname lookup
 */
 
 static char *q = 0;

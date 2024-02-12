@@ -9,7 +9,7 @@
 	@brief random sort of DNS servers per IP
 */
 
-int ipv4socket;
+// int ipv4socket;
 
 /* XXX: sort servers by configurable notion of closeness? */
 /* XXX: pay attention to competence of each server? */

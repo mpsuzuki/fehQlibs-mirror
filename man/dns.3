@@ -137,11 +137,11 @@ into \fIfqdn\fR and the concatenation of the IP addresses into \fIout\fR,
 while returning the number of encountered IP addresses.
 .B dns_ip[4|6]_qualify
 evaluates the environment variables
-.I DNSWRITEFILE
+.I $DNSREWRITEFILE
 pointing to
 .I /etc/dnsrewrite
 and
-.I LOCALDOMAIN
+.I $LOCALDOMAIN
 and finally reading
 .I /etc/resolv.conf
 to build the

@@ -123,9 +123,31 @@ Environment Variables Read:
 $DNSCACHEPIP	The upstream resolver's IP[v4|v6] addresses (up to 32).
 	IPv6 LLU addresses may be suffixed with the interface name.
 $DNSREWRITEFILE Alternate location for the system-wide
-	/etc/dnsrewritefile
+	/etc/dnsrewrite
+file
 $LOCALDOMAIN 	Additional local domain name appended to unqualified
 	hostnames dynamically. 
 
+Sample for the file /etc/dnsrewrite:
 
-Erwin Hoffmann, July 2020.
+#annything.local -> me
+-.example.com:me
+# me -> 127.0.0.1
+=me:127.0.0.1
+# any.name.a -> any.name.af.mil
+*.a:.af.mil
+# any-name-without-dots -> any-name-without-dots.heaven.af.mil
+?:.heaven.af.mil
+# remove trailing dot
+*.:
+
+and DJB's explanations are given here:
+
+Instructions are followed in order, each at most once. There are four types of instructions:
+
+=post:new means that the host name post is replaced by new.
+*post:new means that any name of the form prepost is replaced by prenew.
+?post:new means that any name of the form prepost, where pre does not contain dots or brackets, is replaced by prenew.
+-post:new means that any name of the form prepost is replaced by new.
+
+Erwin Hoffmann, August 2020.

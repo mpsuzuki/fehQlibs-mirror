@@ -33,4 +33,7 @@ fehQlibs-15: 	Added the Guninski patch for alloc from Qualsys (CVE-2005-1513).
 		dns_ipq (IP qualify) now with unified IPv4/IPv6 handling and evaluation 
 		of DNS well-know names 'localhost' and 'ipv[4|6]-loopback' (RFC 6761).
 		Fixed DNS lookup for IPv6 addresses. Adjusted DNS man pages.
-
+fehQlibs-15a  	Again, changes for dns_ipq.c concerning return codes.
+		Should have only impact in case using DJB's qualification format.
+		Documentation and man page fixes for DNS stub resolver. 
+		GCC 10 linker warning for external 'ipv4socket' solved.

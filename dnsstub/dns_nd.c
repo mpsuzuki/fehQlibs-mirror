@@ -7,7 +7,7 @@
 	@file dns_nd.c
 	@autor djb, fefe
 	@source ucspi-tcp
-	@brief dns domain name for ip (wire format)
+	@brief DNS domain name for ip (wire format)
 */
 
 int dns_name4_domain(char name[DNS_NAME4_DOMAIN],const char ip[4])

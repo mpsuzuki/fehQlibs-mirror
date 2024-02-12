@@ -8,7 +8,7 @@
 	@author djb
 	@source qmail
 	@brief dns MX query
-	@output: stralloc out
+	@param (on output) stralloc out
 */
 
 static char *q = 0;
