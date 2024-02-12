@@ -2,14 +2,11 @@
 #define STRALLOC_H
 
 /*
- *  Revision 20170504, Kai Peter
+ *  Revision 20210307, Erwin Hoffmann
  *  - 
 */
 
 #include <sys/types.h>
-
-
-/* from libowfat: replace the GEN_ALLOC by the struct */
 
 /* stralloc is the internal data structure all functions are working on.
  * s is the string.
@@ -22,8 +19,6 @@ typedef struct stralloc {
   size_t len;
   size_t a;
 } stralloc;
-/* end from libowfat */
-
 
 //extern int stralloc_ready(stralloc *,unsigned int);
 extern int stralloc_ready(stralloc *sa,size_t len);
@@ -50,43 +45,5 @@ extern void stralloc_free(stralloc *);
 #define stralloc_catuint0(sa,i,n) (stralloc_catulong0((sa),(i),(n)))
 #define stralloc_catint0(sa,i,n) (stralloc_catlong0((sa),(i),(n)))
 #define stralloc_catint(sa,i) (stralloc_catlong0((sa),(i),0))
-
-
-/* file: gen_alloc.h */
-#define GEN_ALLOC_typedef(ta,type,field,len,a) \
-  typedef struct ta { type *field; unsigned int len; unsigned int a; } ta;
-
-/* file: gen_allocdefs.h   (deprecated) */
-// used in: ipalloc, prioq, qmail-remote, qmail-inject, token822
-#define GEN_ALLOC_ready(ta,type,field,len,a,i,n,x,base,ta_ready) \
-int ta_ready(x,n) register ta *x; register unsigned int n; \
-{ register unsigned int i; \
-  if (x->field) { \
-    i = x->a; \
-    if (n > i) { \
-      x->a = base + n + (n >> 3); \
-      if (alloc_re(&x->field,i * sizeof(type),x->a * sizeof(type))) return 1; \
-      x->a = i; return 0; } \
-    return 1; } \
-  x->len = 0; \
-  return !!(x->field = (type *) alloc((x->a = n) * sizeof(type))); }
-
-#define GEN_ALLOC_readyplus(ta,type,field,len,a,i,n,x,base,ta_rplus) \
-int ta_rplus(x,n) register ta *x; register unsigned int n; \
-{ register unsigned int i; \
-  if (x->field) { \
-    i = x->a; n += x->len; \
-    if (n > i) { \
-      x->a = base + n + (n >> 3); \
-      if (alloc_re(&x->field,i * sizeof(type),x->a * sizeof(type))) return 1; \
-      x->a = i; return 0; } \
-    return 1; } \
-  x->len = 0; \
-  return !!(x->field = (type *) alloc((x->a = n) * sizeof(type))); }
-
-#define GEN_ALLOC_append(ta,type,field,len,a,i,n,x,base,ta_rplus,ta_append) \
-int ta_append(x,i) register ta *x; register type *i; \
-{ if (!ta_rplus(x,1)) return 0; x->field[x->len++] = *i; return 1; }
-
 
 #endif

@@ -13,8 +13,6 @@
 	@brief setup sending socket
 */
 
-int ipv4socket;
-
 int socket_send4(int s,const char *buf,unsigned int len,const char ip[4],uint16 port)
 {
   struct sockaddr_in sa;
@@ -45,7 +43,7 @@ int socket_send6(int s,const char *buf,unsigned int len,const char ip[16],uint16
 int socket_send(int s,const char *buf,unsigned int len,const char ip[16],uint16 port,uint32 scope_id)
 { 
   if (ip6_isv4mapped(ip))
-    return socket_send4(s,buf,len,ip+12,port);
+    return socket_send4(s,buf,len,ip + 12,port);
   else 
     return socket_send6(s,buf,len,ip,port,scope_id);
 } 

@@ -9,8 +9,6 @@
 	@brief random sort of DNS servers per IP
 */
 
-// int ipv4socket;
-
 /* XXX: sort servers by configurable notion of closeness? */
 /* XXX: pay attention to competence of each server? */
 /* XXX: pay attention to qualification (DNSSec, DNSCurve) of each server? */
@@ -37,26 +35,6 @@ void dns_sortip6(char *s,unsigned int n)
   char tmp[16];
 
   n >>= 4;	/* 16 byte per IPv4 address */
-  while (n > 1) {
-    i = dns_random(n);
-    --n;
-    byte_copy(tmp,16,s + (i << 4));
-    byte_copy(s + (i << 4),16,s + (n << 4));
-    byte_copy(s + (n << 4),16,tmp);
-  }
-}
-
-void dns_sortip(char *s,unsigned int n)
-{
-  unsigned int i;
-  char tmp[16];
-
-  if (ipv4socket)
-    for (i = 0; i < 16; ++i)
-      if (!ip6_isv4mapped(s + 16 * i))
-        byte_copy(s + 16 * i,16,V6localnet);
-
-  n >>= 4;	/* we use IPv4 mapped IPv6 addresses */
   while (n > 1) {
     i = dns_random(n);
     --n;

@@ -103,6 +103,4 @@ char tohex(char);
 #define V6any V6localnet	/* backward compatibility */
 #define ip6_isv4mapped(ip) (byte_equal(ip,12,V4mappedprefix))
 
-extern int ipv4socket;
-
 #endif

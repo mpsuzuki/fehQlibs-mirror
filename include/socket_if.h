@@ -1,7 +1,10 @@
 #ifndef SOCKETIF_H
 #define SOCKETIF_H
 
-/*
+/*  Revision 20210226, Erwin Hoffmann
+ *  - removed dependency on ipv4socket (loose coupling)
+ *  - only single socket_tcp() and
+ *  - single socket_udp() function serving both IPv4 + IPv6
  *  Revision 20181125, Erwin Hoffmann
  *  - switched to 'uint_t.h'
  *  - changed 'socket_tcp' --> 'socket_tcp4', 'socket_udp' --> 'socket_udp4'
@@ -19,7 +22,6 @@
 extern int socket_connect4(int,const char [4],uint16);
 extern int socket_bind4(int,const char [4],uint16);
 extern int socket_bind4_reuse(int,const char [4],uint16);
-extern int socket_accept4(int,char *,uint16 *);	/* not used here */
 extern int socket_send4(int,const char *,unsigned int,const char [4],uint16);
 extern int socket_local4(int,char *,uint16 *);
 extern int socket_remote4(int,char *,uint16 *);
@@ -57,15 +59,15 @@ extern int socket_nodualstack(int);
 #define socket_remote6 socket_remote
 
 /* TCP */
-extern int socket_tcp(void);
 extern int socket_tcp4(void);
 extern int socket_tcp6(void);
+extern int socket_tcp(void);
 extern int socket_tcpnodelay(int);
 
 /* UDP */
-extern int socket_udp(void);
 extern int socket_udp4(void);
 extern int socket_udp6(void);
+extern int socket_udp(void);
 
 /*********** For future use ***********************************/
 /* enable sending udp packets to the broadcast address */
@@ -83,18 +85,5 @@ extern int socket_udp6(void);
 // extern int socket_mcloop4(int,char);
 // extern int socket_mcloop6(int,char);
 /**************************************************************/
-
-/************* ipv4socket *************************************/
-/* ipv4socket -> former noipv6                                */
-/*                                                            */
-/* ipv4socket = 0 -> IPv6 and dual-stack binding IPv6+IPv4    */
-/*                                                            */
-/* ipv4socket = 1 -> bind to IPv4                             */
-/*              IP = IPv6-mapped-IPv4 address recognized      */
-/*                                                            */
-/* ipv4socket = 2 -> force binding to IPv4 only               */
-/*                                                            */
-/**************************************************************/
-extern int ipv4socket; 
 
 #endif

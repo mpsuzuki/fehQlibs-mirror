@@ -43,3 +43,9 @@ fehQlibs-16:	19961114 change: dns_ip() now recognizes [1.2.3.4] and [f80::a]. tn
 		constmap() added from qmail and written man page.
 		Updated getln man page to refer buffer.
 		Changed ipv4/6-localhost and ipv4/6-loopback to ip4/6-localhost and ip4/6-loopback.
+fehQlibs-16+:	GCC 10.2 conformance; ipv4socket definitition removed in socket_send()
+		and socket_connect().
+		This is a major desaster: 'external' definitions depend on time-of-usage.
+fehQlibs-17:	Removed dependency on ipv4socket entirely. 
+		Reworked socket interface + doc. Removed obsolete dns_sortip() function.
+		genalloc.h is now separate. Installation of man pages described.

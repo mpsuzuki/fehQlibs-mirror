@@ -3,6 +3,7 @@
 #include "iopause.h"
 #include "error.h"
 #include "timeoutconn.h"
+#include "ip.h"
 
 /**
   @file timeoutconn.c
@@ -79,8 +80,14 @@ int timeoutconn(int s,char ip[16],uint16 port,unsigned int timeout,uint32 netif)
   struct taia deadline;
   iopause_fd x;
   unsigned int p = 0;
+  int r;
 
-  if (socket_connect(s,ip,port,netif) == -1) {
+  if (ip6_isv4mapped(ip)) 
+    r = socket_connect4(s,ip,port);
+  else
+    r = socket_connect6(s,ip,port,netif);
+
+  if (r == -1) {
     if ((errno != EWOULDBLOCK) && (errno != EINPROGRESS)) return -1;
     x.fd = s;
     x.events = IOPAUSE_WRITE;

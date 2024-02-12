@@ -2,6 +2,8 @@
 #define DNSRESOLV_H
 
 /*
+ *  Revision 20210401, Erwin Hoffmann
+ *  - removed obsolte dns_sortip(); not going to work with GCC-10 anyway
  *  Revision 20200719, Erwin Hoffmann
  *  - added dns_qualify_localhost function including fqdn retrun
  *  Revision 20190730, Erwin Hoffmann
@@ -137,7 +139,6 @@ extern int dns_txt_packet(stralloc *,const char *,unsigned int);
 extern int dns_txt(stralloc *,const stralloc *);
 extern int dns_mx_packet(stralloc *,const char *,unsigned int);
 extern int dns_mx(stralloc *,const stralloc *);
-extern void dns_sortip(char *,unsigned int); 
 
 /* IPv4 specific */
 

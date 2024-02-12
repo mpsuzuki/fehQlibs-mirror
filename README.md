@@ -117,9 +117,13 @@ Compilation
 
 Starting with version fehQlibs-15b, GCC 10 and Clang compatibility is provided, 
 which means ISO C conformance.
+fehQlibs-17 avoid strong coupling with application routines previously introduced by
+'ipv4socket' and decouples stralloc.h from genalloc.h (to be included separately).
+This respects the GCC 10 compilation unit behavior.
+
 
 -----
 
 Updated: 20170329, Kai Peter
 
-Updated: 20200913, Erwin Hoffmann
+Updated: 202010307, Erwin Hoffmann

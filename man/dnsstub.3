@@ -17,8 +17,6 @@ int \fBdns_transmit_start6\fP(struct dns_transmit *\fIq\fR,const char \fIservers
 int \fBdns_sortip4\fP(char *\fIservers\fR,unsigned int \fIn\fR);
 .br
 int \fBdns_sortip6\fP(char *\fIservers\fR,unsigned int \fIn\fR);
-.br
-int \fBdns_sortip\fP(char *\fIservers\fR,unsigned int \fIn\fR);
 .SH DESCRIPTION
 .B dns_resolvconfip
 reads the name servers defined in
@@ -65,17 +63,11 @@ to bind to the remote IPv6 LLU addresses. Usually
 defaults to
 .IR 0 .
 
-.B dns_sortip
-together with the companion routines
 .B dns_sortip4
 and
 .B dns_sortip6
 randomize the list of name server IPs upon call and as result the first address
 is used to facilitate the name lookup.
-.B dns_sortip
-will remove IPv6 addresses from the list given
-.I ipv4socket 
-is set.
 .IR FQDN .
 .SH "RETURN CODES"
 Different from the original djb implemtation, the 

@@ -19,7 +19,7 @@ check:
 clean:
 	@echo -n Cleaning up libs ...
 	@rm -f `cat TARGETS`
-	@cd dnsstub ; make -s clean
+	@cd dnsstub ; make -s clean ; cd ..
 	@echo " done!"
 
 core: alloc.a buffer.a case.a cdb.a constmap.a env.a \

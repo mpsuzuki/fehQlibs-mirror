@@ -24,8 +24,8 @@ int socket_tcp4(void)
   int s;
 
   s = socket(AF_INET,SOCK_STREAM,0);
-  if (s == -1)  return -1;
-  if (ndelay_on(s) == -1) { close(s); return -1; }
+  if (s != -1) 
+    if (ndelay_on(s) == -1) { close(s); return -1; }
 
   return s;
 }
@@ -35,21 +35,25 @@ int socket_tcp6(void)
   int s;
 
   s = socket(AF_INET6,SOCK_STREAM,0);
-  if (s == -1)
-    if (errno == EINVAL || errno == EAFNOSUPPORT || errno == EPFNOSUPPORT || errno == EPROTONOSUPPORT) 
-      return socket_tcp4();
-
-  if (ndelay_on(s) == -1) { close(s); return -1; }
+  if (s != -1) 
+    if (ndelay_on(s) == -1) { close(s); return -1; }
 
   return s;
 }
 
 int socket_tcp(void)
 {
-  if (ipv4socket) 
-    return socket_tcp4();
+  int s;
 
-  return socket_tcp6();
+  s = socket(AF_INET6,SOCK_STREAM,0);
+  if (s == -1) 
+    if (errno == EINVAL || errno == EAFNOSUPPORT || errno == EPROTO || errno == EPROTONOSUPPORT) 
+       s = socket(AF_INET,SOCK_STREAM,0);
+
+  if (s != -1) 
+    if (ndelay_on(s) == -1) { close(s); return -1; }
+
+  return s;
 }
 
 int socket_tcpnodelay(int s)

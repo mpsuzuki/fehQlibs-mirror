@@ -19,35 +19,39 @@
 	@brief setup a UDP message socket
 */
 
-int socket_udp4(void)
-{
-  int s;
-
-  s = socket(PF_INET,SOCK_DGRAM,0);
-  if (s == -1) return -1;
-  if (ndelay_on(s) == -1) { close(s); return -1; }
-
-  return s;
-}
-
 int socket_udp6(void)
 {
   int s;
 
-  s = socket(PF_INET6,SOCK_DGRAM,0);
-  if (s == -1) 
-    if (errno == EINVAL || errno == EAFNOSUPPORT || errno == EPFNOSUPPORT || errno == EPROTONOSUPPORT)
-      return socket_udp4();
-
-  if (ndelay_on(s) == -1) { close(s); return -1; }
+  s = socket(AF_INET6,SOCK_DGRAM,0);
+  if (s != -1)
+   if (ndelay_on(s) == -1) { close(s); return -1; }
 
   return s;
-}
+} 
+
+int socket_udp4(void)
+{
+  int s;
+
+  s = socket(AF_INET,SOCK_DGRAM,0);
+  if (s != -1)
+   if (ndelay_on(s) == -1) { close(s); return -1; }
+
+  return s;
+} 
 
 int socket_udp(void)
 {
-  if (ipv4socket) 
-    return socket_udp4();
+  int s;
 
-  return socket_udp6();
+  s = socket(AF_INET6,SOCK_DGRAM,0);
+  if (s == -1) 
+    if (errno == EINVAL || errno == EAFNOSUPPORT || errno == EPROTO || errno == EPROTONOSUPPORT)
+      s = socket(AF_INET,SOCK_DGRAM,0);
+
+  if (s != -1)
+   if (ndelay_on(s) == -1) { close(s); return -1; }
+
+  return s;
 }

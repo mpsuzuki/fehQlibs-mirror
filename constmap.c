@@ -126,7 +126,7 @@ int constmap_init_char(struct constmap *cm,char *s,int len,int flagcolon,char fl
               cm->first[h] = -1;
             pos = 0;
             i = 0;
-            for (j = 0; j < len; ++j)
+            for (j = 0; j < len; ++j) {
               if (!s[j]) {
                 k = j - i;
                 if (flagcolon) {
@@ -145,9 +145,10 @@ int constmap_init_char(struct constmap *cm,char *s,int len,int flagcolon,char fl
                 ++pos;
                 i = j + 1;
               }
-              return 1;
-           }
-           alloc_free(cm->hash);
+            }
+            return 1;
+          }
+          alloc_free(cm->hash);
         }
         alloc_free(cm->inputlen);
       }

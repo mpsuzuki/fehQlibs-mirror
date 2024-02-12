@@ -44,10 +44,12 @@ int socket_listen(int s,int backlog)
 
 int socket_ipoptionskill(int s)
 {
-  if (ipv4socket) 
-    return setsockopt(s,IPPROTO_IP,1,(char *) 0,0); /* 1 == IP_OPTIONS */
+  int r;
 
-  return setsockopt(s,IPPROTO_IPV6,1,(char *) 0,0); 
+  r = setsockopt(s,IPPROTO_IP,1,(char *) 0,0); /* 1 == IP_OPTIONS */
+  r = setsockopt(s,IPPROTO_IPV6,1,(char *) 0,0); 
+  
+  return r;
 }
 
 int socket_ip6anycast(int s)
@@ -62,7 +64,6 @@ int socket_ip6anycast(int s)
 #elif IP_RECVDSTADDR  /* BSD */
    r =  setsockopt(s,IPPROTO_IP,IP_RECVDSTADDR,&opt,sizeof(opt));
 #elif IPV6_RECVDSTADDR
-   if (!ipv4socket) setsockopt(s,IPPROTO_IPV6,IPV6_ONLY,&opt,sizeof(opt));
    r = setsockopt(s,IPPROTO_IPV6,IP_RECVDSTADDR,&opt,sizeof(opt));
 #endif
    return r;

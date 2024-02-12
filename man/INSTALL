@@ -1,0 +1,12 @@
+Imstallation of fehQlibs man pages
+==================================
+
+a) It is expected that the fehQlibs are installed at /usr/local.
+b) Check your manpath settings: $ manpath
+c) You might want to compress the manpages: gzip *.3
+d) If available, the compressed or raw man pages can be simply copied to
+   - /usr/local/man/man3 or
+   - /usr/local/share/man/man3
+   'root' is required to complete this step.
+
+That's it!

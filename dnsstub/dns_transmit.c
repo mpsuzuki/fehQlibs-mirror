@@ -134,7 +134,6 @@ int thisudp(struct dns_transmit *d)
     for (; d->curserver < QUERY_MAXNS; ++d->curserver) {
       ip = d->servers + 16 * d->curserver;
       if (byte_diff(ip,16,V6localnet)) {
-        ipv4socket = ip6_isv4mapped(ip);
         d->query[2] = dns_random(256);
         d->query[3] = dns_random(256);
   
@@ -186,7 +185,6 @@ int thistcp(struct dns_transmit *d)
   for (; d->curserver < QUERY_MAXNS; ++d->curserver) {
     ip = d->servers + 16 * d->curserver;
     if (byte_diff(ip,16,V6localnet)) {
-      ipv4socket = ip6_isv4mapped(ip);
       d->query[2] = dns_random(256);
       d->query[3] = dns_random(256);
 

@@ -13,8 +13,6 @@
 	@brief binding a socket to a local resource
 */
 
-// int ipv4socket;  /* some GCC 10 versions don't allow this */
-
 int socket_bind4(int s,const char ip[4],uint16 port)
 {
   struct sockaddr_in sa;
@@ -66,7 +64,7 @@ int socket_bind6_reuse(int s,const char ip[16],uint16 port,uint32 scope_id)
 
 int socket_bind(int s,const char ip[16],uint16 port,uint32 scope_id)
 {
-  if (ipv4socket)
+  if (ip6_isv4mapped(ip)) 
     return socket_bind4(s,ip + 12,port);
   
   return socket_bind6(s,ip,port,scope_id);
@@ -74,7 +72,7 @@ int socket_bind(int s,const char ip[16],uint16 port,uint32 scope_id)
 
 int socket_bind_reuse(int s,const char ip[16],uint16 port,uint32 scope_id)
 {
-  if (ipv4socket)
+  if (ip6_isv4mapped(ip)) 
     return socket_bind4_reuse(s,ip + 12,port);
 
   return socket_bind6_reuse(s,ip,port,scope_id);
