@@ -2,6 +2,8 @@
 #define DNSRESOLV_H
 
 /*
+ *  Revision 20210922, Erwin Hoffmann
+ *  - Added constants MAXMSGSIZE and MAXSEGMENT - not used yet
  *  Revision 20210401, Erwin Hoffmann
  *  - removed obsolte dns_sortip(); not going to work with GCC-10 anyway
  *  Revision 20200719, Erwin Hoffmann
@@ -36,8 +38,10 @@
 #define DNS_COM  -4              /* (socket) communication errors */
 #define DNS_INT  -4              /* internal errors */
 
-#define MSGSIZE MTUSIZE       /* aggressive */
+#define MSGSIZE MTUSIZE          /* todays default */
 // #define MSGSIZE 512              /* RFC 1035 */
+#define MAXMSGSIZE 4096          /* 4069 seen with EDNS0 */ 
+#define MAXSEGMENT 65535         /* Max TCP buffer size */
 
 #define QUERY_MAXNS 32           /* 16 IPv4 + 16 IPv6 NS */
 #define QUERY_MAXIPLEN 512       /* QUERY_MAXNS * 16 */

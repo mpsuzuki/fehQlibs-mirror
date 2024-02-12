@@ -31,8 +31,12 @@ if [ -f $POLL_H -o -f $POLL_H1 ] ; then CFLAGS="$CFLAGS -DHAS_POLL_H"
    else echo -n " not" ; fi
 echo " found!"
 
-# Current systems support 64 bit integers ... via
+# Current systems support for 8 and 64 bit integers ... via
 STDINT_H="/usr/include/stdint.h"
+echo -n "Checking for uint8_t ..."
+if [ `grep -c uint_least8_t $STDINT_H` ] ; then CFLAGS="$CFLAGS -DHAS_UINT8_H"
+   else echo -n " not" ; fi
+echo " found!"
 echo -n "Checking for uint64_t ..."
 if [ `grep -c uint_least64_t $STDINT_H` ] ; then CFLAGS="$CFLAGS -DHAS_UINT64_H"
    else echo -n " not" ; fi

@@ -8,6 +8,17 @@
 	@brief define basic integer types and size through <stdint.h>
 */
 
+#ifndef UINT8_H
+#define UINT8_H
+
+#ifdef HAS_UINT8_H
+typedef uint8_t uint8;
+#else
+typedef unsigned char uint8;
+#endif
+
+#endif
+
 #ifndef UINT16_H
 #define UINT16_H
 

@@ -1,7 +1,9 @@
 #ifndef SOCKETIF_H
 #define SOCKETIF_H
 
-/*  Revision 20210226, Erwin Hoffmann
+/*  Revision 20210828, Erwin Hoffmann
+ *  - added socket_accept4()
+ *  Revision 20210226, Erwin Hoffmann
  *  - removed dependency on ipv4socket (loose coupling)
  *  - only single socket_tcp() and
  *  - single socket_udp() function serving both IPv4 + IPv6
@@ -19,17 +21,18 @@
 #include "uint_t.h"
 
 /* IPv4 only */
-extern int socket_connect4(int,const char [4],uint16);
+extern int socket_accept4(int,char [4],uint16 *);
 extern int socket_bind4(int,const char [4],uint16);
 extern int socket_bind4_reuse(int,const char [4],uint16);
-extern int socket_send4(int,const char *,unsigned int,const char [4],uint16);
+extern int socket_connect4(int,const char [4],uint16);
 extern int socket_local4(int,char *,uint16 *);
 extern int socket_remote4(int,char *,uint16 *);
+extern int socket_send4(int,const char *,unsigned int,const char [4],uint16);
 
 /* IPv6 only */
-extern int socket_connect6(int s,const char [16],uint16,uint32);
-extern int socket_bind6(int s,const char [16],uint16,uint32);
-extern int socket_bind6_reuse(int s,const char [16],uint16,uint32);
+extern int socket_bind6(int,const char [16],uint16,uint32);
+extern int socket_bind6_reuse(int,const char [16],uint16,uint32);
+extern int socket_connect6(int,const char [16],uint16,uint32);
 extern int socket_send6(int,const char *,unsigned int,const char [16],uint16,uint32);
 extern const char* socket_getifname(uint32);
 extern uint32 socket_getifidx(const char *);
@@ -37,10 +40,10 @@ extern int socket_ip6optionskill(int);
 extern int socket_ip6anycast(int);
 
 /* Common IPv4 & IPv6 */
-extern int socket_accept(int s,char [16],uint16 *,uint32 *);
-extern int socket_bind(int s,const char [16],uint16,uint32);
-extern int socket_bind_reuse(int s,const char [16],uint16,uint32);
-extern int socket_connect(int s,const char [16],uint16,uint32);
+extern int socket_accept(int,char [16],uint16 *,uint32 *);
+extern int socket_bind(int,const char [16],uint16,uint32);
+extern int socket_bind_reuse(int,const char [16],uint16,uint32);
+extern int socket_connect(int,const char [16],uint16,uint32);
 extern int socket_connected(int);
 extern int socket_listen(int,int);
 extern int socket_local(int,char [16],uint16 *,uint32 *);

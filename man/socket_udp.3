@@ -43,8 +43,8 @@ appropriately, without allocating any resources.
     u = socket_udp4();
     socket_bind4(u,localip + 12,p);
   } else
-    u = socket_udp4();
-    socket_bind4(u,localip,p,0);
+    u = socket_udp6();
+    socket_bind6(u,localip,p,0);
   }
   socket_connect(u,remoteip,p,0);
 .SH "SEE ALSO"

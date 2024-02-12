@@ -37,6 +37,21 @@ int socket_accept(int s,char ip[16],uint16 *port,uint32 *scope_id)
   return fd;
 }
 
+int socket_accept4(int s,char ip[4],uint16 *port)
+{
+  struct sockaddr_in sa; 
+  unsigned int dummy = sizeof(sa); 
+  int fd; 
+
+  fd = accept(s,(struct sockaddr *) &sa,&dummy);
+  if (fd == -1) return -1; 
+
+  byte_copy(ip,4,(char *) &sa.sin_addr);
+  uint16_unpack_big((char *) &sa.sin_port,port);
+
+  return fd; 
+}
+
 int socket_listen(int s,int backlog)
 {
   return listen(s,backlog);
