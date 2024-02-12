@@ -59,5 +59,6 @@ fehQlibs-20
 		Added uint8p.c functions. Fixed dns_txt.c for multiple labels in RDATA section.
 fehQlibs-21
 		Fixed wrong return code for DNS_COM (tx Franz). 
-		Fixed header and man page for env functions.
-		readclose() provided in original version; added makro readclose_append.
+		Fixed header and man page for env functions and included fd_coe in man fd.
+fehQlibs-22
+		Changed ipX_bytestring to return correctly the number of bytes processed.

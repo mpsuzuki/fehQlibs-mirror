@@ -1,12 +1,14 @@
 .TH qlibs: fd 3
 .SH NAME
-fd \- duplicate or move a descriptor
+fd \- duplicate, move or close a file descriptor
 .SH SYNTAX
 .B #include \(dqfd.h\(dq
 
 int \fBfd_copy\fP(int \fIto\fR,int \fIfrom\fR);
 .br
 int \fBfd_move\fP(int \fIto\fR,int \fIfrom\fR);
+.br
+int \fBfd_coe\fP(int \fIfd\fR);
 .SH DESCRIPTION
 .B fd_copy
 copies 
@@ -58,10 +60,15 @@ and
 are the same number,
 .B fd_move
 does nothing.
+
+.B fd_coe
+closes
+.IR fd .
 .SH "RETURN CODES"
-.B fd_copy
-and 
-.B fd_move
+.BR fd_copy ,
+.BR fd_move ,
+and
+.B fd_coe
 return 
 .I 0 
 on success, 
@@ -69,4 +76,4 @@ and
 .I -1 
 on error.
 .SH "SEE ALSO"
-dup(2)
+dup(2), fcntl(2)

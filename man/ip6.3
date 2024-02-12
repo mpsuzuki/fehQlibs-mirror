@@ -74,7 +74,7 @@ If no prefix is identfied, it returns 128.
 .B ip6_bytestring
 reads the IPv6 address given as
 .I char[16]
-while returning the 'bytestring' representation
+while returning a 0-terminated 'bytestring' representation
 .I 1001001....
 up to the given prefix length
 .IR plen .
@@ -90,12 +90,9 @@ a IPv4 mapped address.
 .SH "RETURN CODES"
 The
 .B ip(6)*
-programs return the number of bytes processed;
-except for
+programs return the number of bytes processed.
 .B ip6_bytestring
-returning
-.I 0
-on success; others on failure. 
+returns negative numbers on failure.
 .SH "SEE ALSO"
 ip4(3), 
 socket_if(3)

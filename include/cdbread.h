@@ -5,7 +5,7 @@
 
 #include "uint_t.h"
 
-#define CDB_HASHSTART 5381
+#define CDB_HASHSTART 5381ULL
 extern uint32 cdb_hashadd(uint32,unsigned char);
 extern uint32 cdb_hash(char *,unsigned int);
 extern uint32 cdb_unpack(unsigned char *);

@@ -314,48 +314,47 @@ unsigned int ip6_cidr(char *s,char ip[16],unsigned long *plen)
         parse IPv6 address and represent as char string with length prefix
  @param input:  IPv6 char array, prefix length
         output: pointer to stralloc bit string;
- @return 0, if ok; 1, memory shortage
+ @return n: number of bytes, if ok; -1: memory shortage
  */
 
 unsigned int ip6_bytestring(stralloc *ipstring,char ip[16],int prefix)
 {
-  int i, j;
+  int i, j, n = 0;
   unsigned char lowbyte, highbyte;
 
-  ipstring->len = 0;
-  if (!stralloc_copys(ipstring,"")) return 1;
-  if (!stralloc_readyplus(ipstring,128)) return 1;
+  if (!stralloc_readyplus(ipstring,128)) return -1;
+  if (!stralloc_copys(ipstring,"")) return -1;
 
   for (i = 0; i < 16; i++) {
     lowbyte = (unsigned char) (ip[i]) & 0x0f;
     highbyte = (unsigned char) (ip[i] >> 4) & 0x0f;
 
     for (j = 3; j >= 0; j--) {
-      if (highbyte & (1<<j)) {
-        if (!stralloc_cats(ipstring,"1")) return 1;
+      if (highbyte & (1 << j)) {
+			  n++;
+        if (!stralloc_cats(ipstring,"1")) return -1;
       } else {
-        if (!stralloc_cats(ipstring,"0")) return 1;
-      }
-      if (prefix == 0) {
-        if (!stralloc_0(ipstring)) return 1;
-        else return 0;
+			  n++;
+        if (!stralloc_cats(ipstring,"0")) return -1;
       }
       prefix--;
+			if (!prefix) goto DONE;
     }
     for (j = 3; j >= 0; j--) {
-      if (lowbyte & (1<<j)) {
-        if (!stralloc_cats(ipstring,"1")) return 1;
+      if (lowbyte & (1 << j)) {
+			  n++;
+        if (!stralloc_cats(ipstring,"1")) return -1;
       } else {
-        if (!stralloc_cats(ipstring,"0")) return 1;
-      }
-      if (prefix == 0) {
-        if (!stralloc_0(ipstring)) return 1;
-        return 0;
+			  n++;
+        if (!stralloc_cats(ipstring,"0")) return -1;
       }
       prefix--;
+			if (!prefix) goto DONE;
     }
   }
-  if (!stralloc_0(ipstring)) return 1;
 
-  return 0;
+DONE:
+  if (!stralloc_0(ipstring)) return -1;
+
+  return n;
 }

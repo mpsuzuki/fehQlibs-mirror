@@ -59,18 +59,15 @@ If no prefix is identified, it returns 32.
 .B ip4_bytestring
 reads the IPv4 address given as
 .I char[4]
-while returning the 'bytestring' representation
+while returning a 0-terminated 'bytestring' representation
 .I 1001001....
 up to the given prefix length
 .IR plen .
 .SH "RETURN CODES"
 The 
 .B ip(4)*
-programs return the number of bytes processed;
-except for 
+programs return the number of bytes processed.
 .B ip4_bytestring
-returning 
-.I 0
-on success; others on failure.
+returns regative numbers on failure.
 .SH "SEE ALSO"
 ip6(3), socket_if(3)

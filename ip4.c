@@ -121,7 +121,7 @@ unsigned int ip4_cidr(char *s,char ip[4],unsigned long *plen)
   j = str_chr(s,'/');
   if (s[j] == '/') {
      s[j] = 0;
-     j = scan_ulong(s+j+1,plen);
+     j = scan_ulong(s + j + 1,plen);
   } 
   return ip4_scan((const char *)s,ip);
 }
@@ -131,36 +131,36 @@ unsigned int ip4_cidr(char *s,char ip[4],unsigned long *plen)
         parse IPv4 address and represent as char string with length prefix
  @param input:  IPv4 char array, prefix length
         output: pointer to stralloc bytestring
- @return 0, if ok; 1, memory shortage; 2, input error
+ @return n: number of bytes, if ok; -1: memory shortage; -2: input error
  */
 
 unsigned int ip4_bytestring(stralloc *ipstring,char ip[4],int prefix)
 {
-  int i, j;
+  int i, j, n = 0;
   unsigned char number;
 
-  ipstring->len = 0;
-  if (!stralloc_copys(ipstring,"")) return 1;
-  if (!stralloc_readyplus(ipstring,32)) return 1;
+  if (!stralloc_readyplus(ipstring,32)) return -1;
+  if (!stralloc_copys(ipstring,"")) return -1;
 
   for (i = 0; i < 4; i++) {
     number = (unsigned char) ip[i];
-    if (number > 255) return 2;
+    if (number > 255) return -2;
 
     for (j = 7; j >= 0; j--) {
-      if (number & (1<<j)) {
-        if (!stralloc_cats(ipstring,"1")) return 1;
+      if (number & (1 << j)) {
+			  n++;
+        if (!stralloc_cats(ipstring,"1")) return -1;
       } else {
-        if (!stralloc_cats(ipstring,"0")) return 1;
-      }
-      if (prefix == 0) {
-        if (!stralloc_0(ipstring)) return 1;
-        return 0;
+			  n++;
+        if (!stralloc_cats(ipstring,"0")) return -1;
       }
       prefix--;
+			if (!prefix) goto DONE;
     }
   }
+
+DONE:
   if (!stralloc_0(ipstring)) return 1;
 
-  return 0;
+  return n;
 }
