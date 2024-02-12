@@ -57,7 +57,7 @@ int env_unset(char *s)
   return 1;
 }
 
-static int env_set(char *s) {
+int env_set(char *s) {
   char *t;
 
   t = env_findeq(s);
@@ -127,6 +127,7 @@ int env_init() {
 }
 
 static char *null = 0;
+
 void env_clear() {
   if (env_isinit) 
     while (en) env_del(0);

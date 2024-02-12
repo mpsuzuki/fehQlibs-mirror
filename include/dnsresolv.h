@@ -2,6 +2,8 @@
 #define DNSRESOLV_H
 
 /*
+ *  Revision 20221101, Erwin Hoffmann
+ *  - DNS_COM has now return code -3 (as documented; tx. Franz S.)
  *  Revision 20210922, Erwin Hoffmann
  *  - Added constants MAXMSGSIZE and MAXSEGMENT - not used yet
  *  Revision 20210401, Erwin Hoffmann
@@ -35,7 +37,7 @@
 
 #define DNS_MEM  -1
 #define DNS_ERR  -2              /* parsing errors and others */
-#define DNS_COM  -4              /* (socket) communication errors */
+#define DNS_COM  -3              /* (socket) communication errors */
 #define DNS_INT  -4              /* internal errors */
 
 #define MSGSIZE MTUSIZE          /* todays default */

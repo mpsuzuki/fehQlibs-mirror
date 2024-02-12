@@ -1,0 +1,99 @@
+<HTML>
+<BODY>
+<PRE>
+<!-- Manpage converted by man2html 3.0.1 -->
+[1mSYNTAX[0m
+       [1m#include "logmsg.h"[0m
+
+       int logmsg(const char *who, int ecode, unsigned int classs, char *msg)
+
+       [1merr_sys[22m(w,e) logmsg(w,e,FATAL,"")
+       [1merr_sys_plus[22m(w,e,m) logmsg(w,e,FATAL,m)
+       [1merr_tmp[22m(w,e) logmsg(w,e,WARN,"")
+       [1merr_tmp_plus[22m(w,e,m) logmsg(w,e,WARN,m)
+       [1merr_int[22m(w,e,c) logmsg(w,e,c,"")
+       [1merr_int_plus[22m(w,e,c,m) logmsg(w,e,c,m)
+       [1mlog_who[22m(w,m) logmsg(w,0,LOG,m)
+       [1mlog_anon[22m(m) logmsg("",0,LOG,m)
+
+[1mDESCRIPTION[0m
+       [1mlogmsg  [22mprints  error,  warning, or info/logging messages to stderr and
+       potentially terminates the calling  program,  depending  on  the  [4mclass[0m
+       given.   [4mwho[24m  is the name of the program, [4mecode[24m is an error code, [4mclass[0m
+       determines the behavior upon call and [4mmsg[24m is the logging message.  Read
+       "error.h" to learn more about related constants.
+
+[1mECODE[0m
+       [4mecode[24m is the error code and subject to be displayed in the log file and
+       potentially used upon exit if the [4mclass[24m equals [1mERROR[22m, [1mFATAL[22m, or [1mDROP[22m.
+
+       To avoid conflicts with syscall error codes, appplication defined error
+       codes  should  be negative.  The values [4m-15[24m, [4m-100[24m and [4m-111[24m are reserved
+       for backward compatibility.
+
+[1mCLASS[0m
+       The [4mclass[24m [4mparameter[24m [4mindicates[24m [4mhow[24m [4mthe[24m  [4mapplication[24m  [4mhandles[24m  [4mexceptions[0m
+       [4mand[24m [4mdisplays[24m [4mthe[24m [4mlog[24m [4mmessage.[0m
+
+       [4mo[24m   [1mLOG[22m, [1mINFO[22m, [1mALERT[22m, [1mWARN [22m- display message and continue operation
+
+       o   [1mDROP  [22m- display warning message and continue while returning to the
+           calling program
+
+       o   [1mUSAGE[22m, [1mSYNTAX[22m, [1mFATAL[22m, [1mERROR [22m- display error message and exit appli‐
+           cation with error code
+
+       [1mINFO[22m,  [1mALERT[22m, [1mWARN[22m, [1mDROP[22m, [1mUSAGE[22m, and [1mFATAL [22mas well as [1mERROR [22mdisplay the
+       respective class string like [4mwarning:[24m in the  log  message,  while  [1mLOG[0m
+       shows the log message only.
+
+       The  class [1mFATAL [22mshould be used for system error codes only, rather [1mER‐[0m
+       [1mROR [22mand [1mWARN [22mshall be  set  in  conjunction  with  an  application  er‐
+       ror/warning.
+
+[1mMESSAGE[0m
+       If the custom message [4mmsg[24m is given, it will be printed additionally.
+
+       Dan  Bernstein  used sets of [4mstrerr_dieY*()[24m and [4mstrerr_warnY()[24m messages
+       which explicitely determine the  message  and  behavior  class.   Other
+       classes were occasionally defined on demand, such als [4musage()[24m.
+
+       Kai  Peter introduced the [4merrmsg[24m facility in his [1mqlibs [22mincluding a [1msys‐[0m
+       [1mlog [22mcompliant [4mseverity[24m as second parameter.
+
+[1mEXAMPLES[0m
+       The macro definitions uses  [1mw [22mfor the  calling  program,  [1me  [22mfor  error
+       code, [1mc [22mfor class, and [1mm [22mfor message.
+
+         #include "logmsg.h"
+         #define WHO "my_prog"
+
+         err_sys(WHO,errno);
+         err_sys_plus(WHO,-111,"additional message");
+
+         err_tmp("",-100);
+         err_tmp_plus("",errno,"additional message");
+
+         log_who(WHO,"message");
+
+       log_anon() is like log_who() but doesn't print the caller name.
+
+       An user defined message [1ms [22mcan be build from multiple arguments by using
+       the [4mB[24m (build) macro:
+
+         err_sys_plus((errno),B("unable to run: ",*argv));
+
+[1mSEE ALSO[0m
+       <B>syslog(3)</B>
+
+
+
+                                       3                        qlibs:(logmsg)
+</PRE>
+<HR>
+<ADDRESS>
+Man(1) output converted with
+<a href="http://www.oac.uci.edu/indiv/ehood/man2html.html">man2html</a>
+</ADDRESS>
+</BODY>
+</HTML>

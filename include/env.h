@@ -17,6 +17,7 @@ extern int env_init();
 extern /*@null@*/char *env_get(char *);
 extern int env_put(char *,char *);
 extern int env_puts(char *);
+extern int env_set(char *);
 extern int env_unset(char *);
 extern char *env_pick();
 extern void env_clear();

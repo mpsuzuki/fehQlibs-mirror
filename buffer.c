@@ -113,7 +113,8 @@ int buffer_bget(buffer *s,char *buf,size_t len)
 
   if (s->p > 0) return getthis(s,buf,len);
   if (s->n <= len) return oneread(s->op,s->fd,buf,s->n);
-  r = buffer_feed(s); if (r <= 0) return r;
+  r = buffer_feed(s); 
+	if (r <= 0) return r;
   return getthis(s,buf,len);
 }
 

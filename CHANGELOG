@@ -57,3 +57,7 @@ fehQlibs-19
 		Provided socket_accept4 again to avoid IPv4-mapped IPv6 address binding problems.
 fehQlibs-20
 		Added uint8p.c functions. Fixed dns_txt.c for multiple labels in RDATA section.
+fehQlibs-21
+		Fixed wrong return code for DNS_COM (tx Franz). 
+		Fixed header and man page for env functions.
+		readclose() provided in original version; added makro readclose_append.
