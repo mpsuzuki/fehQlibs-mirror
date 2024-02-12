@@ -222,15 +222,23 @@ return the number of answers received, which may be
 .I 0 
 and potentially
 .I -1
-in case of a memory failure.
-The other dns routines simply return
-.I 0
-in case of a successful operation. 
-In case the DNS lookup fails or the routine runs out of memory, 
-.I -1 
-is returned and setting 
+in case of a memory failure. The full set of return codes:
+
+.EX
+Value |  Macro   | Explaination 
+------+----------+-------------------------------------
+ n>0  |          | n = number of answers reeceived
+   0  | DNS_NXD  | either NXDOMAIN or NODATA
+  -1  | DNS_MEM  | out of memory (fatal)
+  -2  | DNS_ERR  | parsing errors
+  -3  | DNS_COM  | socket communicaton errror; SERVFAIL
+  -4  | DNS_INT  | internal error
+  -5  | DNS_SOFT | DNS_ERR or DNS_COM
+  -6  | DNS_HARD | DNS loop problem (CNAME)
+.EE
+
 .I errno 
-appropriately.
+is set appropriately.
 In case of a failure, the respective output variables like
 \fIout\fR and \fIfqdn\fR may or may not change.
 Since a received reply may be empty, always check the length of the

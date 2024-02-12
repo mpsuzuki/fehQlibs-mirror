@@ -1,5 +1,5 @@
-./BUILD = 822a08bd50c6fe51769e0a7da230ac55
-./CHANGELOG = 283134a09980126bb578c39460c5da03
+./BUILD = 3119c820453717278177af253188e95c
+./CHANGELOG = ba424a3dd1cdb12d4c345a11de0a0817
 ./CONTENT = 3478f3a562d003b32aa0762e93a75b26
 ./LICENSE = 43df073a04022f63913c379646905da6
 ./Makefile = abba48d9d52ca48f050208231de5c783
@@ -17,9 +17,9 @@
 ./configure = 145494889bebdcc519320472d84566b6
 ./constmap.c = e49f40971441ca0187a19a1feba012f1
 ./dnsstub/Makefile = 8dcd8f647b1f8d7ec755cea81ed57a37
-./dnsstub/README.md = 477c4586258154c64286d8d8323bddc4
+./dnsstub/README.md = d50e01dbf9223e49ec52f131fa5916d8
 ./dnsstub/TARGETS = 723bd9a97f59f9091fbe2fba10ef8e5e
-./dnsstub/dns_cname.c = cc42c65623d04da12b44627858d3fc42
+./dnsstub/dns_cname.c = f70db88df864eab7694b747fd77dbb6d
 ./dnsstub/dns_dfd.c = 149da24f7b57761d9c0eec3278b63fb0
 ./dnsstub/dns_domain.c = e79ee91862f5d06ec892a228489aca3f
 ./dnsstub/dns_dtda.c = f9fc0ba7ea3cdaad5e85c0d0edd479a7
@@ -52,7 +52,7 @@
 ./include/close.h = a1a84cfde83c8cef39c5ca5f52796aee
 ./include/constmap.h = f217b422c4d74890b6675e72dca753bf
 ./include/direntry.h = ed9e2af8fed1975b017883488b0db2f7
-./include/dnsresolv.h = 39d9d402b0e5bef0065683b309339692
+./include/dnsresolv.h = 717941c00c4e369241000ef70cf848f6
 ./include/env.h = 70f96abf159cedaad9bbbfa4c27bc8a7
 ./include/error.h = 7886039fc72d57919c1c6db56b5fc324
 ./include/exit.h = 45e2e3e56314e2332837a61e1c866423
@@ -63,7 +63,7 @@
 ./include/getln.h = 040da2a02c37a8aa50ea614410f2ed0c
 ./include/getoptb.h = 988a7314fca7dff960dcffc134cc404c
 ./include/iopause.h = b7680ea87e84b568b8f1f7c281ae739a
-./include/ip.h = b476c516ca14c7a4f86b902e06dd93a1
+./include/ip.h = a66be1788f98dc795cceeb4b0f0c9bb2
 ./include/lock.h = 224879d2b1671dad51f8bbcd6f7c2426
 ./include/logmsg.h = d90310844d3fa6cfbab0b37b54170d92
 ./include/ndelay.h = cc914c481a7652e9aef10acdf69de7ff
@@ -100,7 +100,7 @@
 ./man/cdbmake.3 = 54e604b19d139b0c5b451b86c58802d5
 ./man/cdbread.3 = 81a48e1258f4919861b7537a7759c0a5
 ./man/constmap.3 = 3308860b3c8b2032dff86d64aab332d0
-./man/dns.3 = b1d43ec67464117b148764fbd8f37f67
+./man/dns.3 = 3a3834e729315537509ddfd06d76ecd7
 ./man/dnsstub.3 = 63081eeab017fbf754f854010d8b1dc4
 ./man/env.3 = 27c3a784e43a5ec37c2918014bcac3f8
 ./man/error.3 = 2d2b4e9800b73983848581814065b074
@@ -149,7 +149,7 @@
 ./socket_tcp.c = 5c8565ee6668341730d3b9eac7de0a7b
 ./socket_udp.c = 50a0bb63dcea40f7c146e17b1aa1050b
 ./str.c = ff3952e9e6bf49cd34a2bcafaf168208
-./stralloc.c = ded7670cc60dd871ce6f210d9de9847c
+./stralloc.c = 85b65c1193b0d93039530edad5e1cab5
 ./tai.c = 823b0274b23207ebade293fd14a1ab31
 ./taia.c = 63de9eb6672c1c43296b383224fccc74
 ./timeout.c = 35e6965f54a50838b6d3ae61ee8fd962

@@ -2,6 +2,7 @@
 #include "uint_t.h"
 #include "byte.h"
 #include "ip.h"
+#include "case.h"
 #include "dnsresolv.h"
 
 /**
@@ -52,6 +53,7 @@ int dns_cname(stralloc *out,stralloc *fqdn)
   if ((rc = dns_cname_packet(out,dns_resolve_tx.packet,dns_resolve_tx.packetlen)) < 0) return DNS_ERR;
   dns_transmit_free(&dns_resolve_tx);
   dns_domain_free(&q);
+	if (case_equals(out->s,fqdn->s)) rc = -6; // loop DNS_HARD
 
   return rc;
 }

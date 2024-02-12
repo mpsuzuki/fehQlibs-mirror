@@ -64,3 +64,6 @@ fehQlibs-22
 		Changed ipX_bytestring to return correctly the number of bytes processed.
 fehQlibs-22a
 		dns_ip A lookup recognizes now 'composit' ip/fqdn correctly; ie. 1.2.3.4.example.com.
+fehQlibs-23
+		More documentation for dns resolver routines.
+		Added function stralloc_free() which was alreday in the header.

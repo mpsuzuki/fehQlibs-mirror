@@ -78,7 +78,7 @@ In case the NS is not able to initally reply to the query,
 it is retried again at the intervalls {1, 2, 4, 8, 16} secs.
 
 * DNS name qualification (dns_ip_qualify):
-Well-known domain names are qualified loally without invoking a DNS query
+Well-known domain names are qualified locally without invoking a DNS query
 while handling IPv4 and IPv6 addresses separately.
 
 * NS qualification/sorting for NS replies:
@@ -100,7 +100,7 @@ Only printable characters are recognized in the output.
 Different from DJB's initial routines, the DNS front-end routines
   dns_cname*, dns_ip*, dns_mx*, dns_name*, dns dns_txt* 
 return now the number of replies received (not bytes!). 
-Thus, three cases need to be considere:
+Thus, three cases need to be considered:
 
  - rc <  0: Problem occured (SOFTFAIL, HARDFAIL)
  - rc =  0: No answer obtained (but query was successful) = NXDOMAIN
@@ -110,10 +110,13 @@ For return codes < 0, the following conventions have been applied:
 
 	include/dnsresolv.h
 
+\#define DNS_NXD	 0
 \#define DNS_MEM  -1
 \#define DNS_ERR  -2              /* parsing errors and others */
 \#define DNS_COM  -3              /* (socket) communication errors */
 \#define DNS_INT  -4              /* internal errors */
+\#define DNS_SOFT -5              /* either -2 or -3 */
+\#define DNS_HARD -6              /* CNAME loop problem */
 
 The modification of the return code is typically not problematic,
 since mostly just rc = -1 is checked.
@@ -165,4 +168,4 @@ Instructions are followed in order, each at most once. There are four types of i
 \?post:new means that any name of the form prepost, where pre does not contain dots or brackets, is replaced by prenew.
 \-post:new means that any name of the form prepost is replaced by new.
 
-Erwin Hoffmann, July 2022.
+Erwin Hoffmann, June 2023.

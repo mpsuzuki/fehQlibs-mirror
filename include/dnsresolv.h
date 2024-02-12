@@ -2,6 +2,10 @@
 #define DNSRESOLV_H
 
 /*
+ *  Revision 20230613, Erwin Hoffmann
+ *  - DNS_NXD (return code 0) for NXDOMAIN and NODATA added
+ *  - DNS_SOFT as shortcut for DNS_ERR or DNS_COM
+ *  - DNS_HARD indicates DNS loop problems
  *  Revision 20221101, Erwin Hoffmann
  *  - DNS_COM has now return code -3 (as documented; tx. Franz S.)
  *  Revision 20210922, Erwin Hoffmann
@@ -35,10 +39,13 @@
 
 /* Note: The conventions are subject of change in forthcoming versions */
 
-#define DNS_MEM  -1
+#define DNS_NXD   0							 /* NXDOMAIN, NODATA */
+#define DNS_MEM  -1              /* out of memory; fatal */
 #define DNS_ERR  -2              /* parsing errors and others */
-#define DNS_COM  -3              /* (socket) communication errors */
+#define DNS_COM  -3              /* (socket) communication errors: SERVFAIL */
 #define DNS_INT  -4              /* internal errors */
+#define DNS_SOFT -5              /* DNS_ERR or DNS_COM */
+#define DNS_HARD -6              /* DNS loop problem */
 
 #define MSGSIZE MTUSIZE          /* todays default */
 // #define MSGSIZE 512              /* RFC 1035 */
