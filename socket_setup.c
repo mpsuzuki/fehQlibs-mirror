@@ -13,8 +13,6 @@
   @brief setup listening socket
 */
 
-// int ipv4socket;
-
 int socket_accept(int s,char ip[16],uint16 *port,uint32 *scope_id)
 {
   struct sockaddr_in6 sa;

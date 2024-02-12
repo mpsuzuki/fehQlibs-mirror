@@ -13,7 +13,7 @@
 	@brief binding a socket to a local resource
 */
 
-int ipv4socket;
+// int ipv4socket;  /* some GCC 10 versions don't allow this */
 
 int socket_bind4(int s,const char ip[4],uint16 port)
 {

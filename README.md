@@ -111,8 +111,15 @@ Packaging
 
 The fehQlibs are incompatible with Gentoo's parallel compilation flag '-jN' for N > 1.
 
+
+Compilation
+-----------
+
+Starting with version fehQlibs-15b, GCC 10 and Clang compatibility is provided, 
+which means ISO C conformance.
+
 -----
 
 Updated: 20170329, Kai Peter
 
-Updated: 20191107, Erwin Hoffmann
+Updated: 20200913, Erwin Hoffmann

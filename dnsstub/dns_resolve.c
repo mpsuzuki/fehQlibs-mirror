@@ -31,8 +31,7 @@ int dns_resolve(const char *q,const char qtype[2])
     taia_uint(&deadline,120);
     taia_add(&deadline,&deadline,&stamp);
     dns_transmit_io(&dns_resolve_tx,x,&deadline);
-    r = iopause(x,1,&deadline,&stamp);
-    if (r < 0) return DNS_COM;
+    iopause(x,1,&deadline,&stamp);
     r = dns_transmit_get(&dns_resolve_tx,x,&stamp);
     if (r < 0) return DNS_COM;
     if (r == 1) return 0;

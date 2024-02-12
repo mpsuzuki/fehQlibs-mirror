@@ -19,7 +19,6 @@
 
 #define DNSPORT 53
 
-// int ipv4socket;
 uint32 scope_ids[QUERY_MAXNS];
 
 static const int timeouts[5] = { 1, 2, 4, 8, 16 }; /* quadratic, not exponentially */

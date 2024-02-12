@@ -15,7 +15,7 @@ static unsigned int avail = SPACE; /* multiple of ALIGNMENT; 0<=avail<=SPACE */
 /*@null@*//*@out@*/char *alloc(unsigned int n) {
   char *x;
 
-/* Guninski exploit + patch from Qualsys (CVE-2005-1513) */
+/* Guninski exploit + patch from Qualys (CVE-2005-1513) */
 
   if (n >= (INT_MAX >> 3)) {
     errno = ENOMEM;

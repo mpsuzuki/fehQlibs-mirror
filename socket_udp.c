@@ -19,8 +19,6 @@
 	@brief setup a UDP message socket
 */
 
-// int ipv4socket;
-
 int socket_udp4(void)
 {
   int s;
