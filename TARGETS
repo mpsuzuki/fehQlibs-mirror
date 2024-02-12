@@ -9,6 +9,8 @@ case.o
 cdb.a
 cdbmake.o
 cdbread.o
+constmap.a
+constmap.o
 compile
 dnsresolv.a
 env.a

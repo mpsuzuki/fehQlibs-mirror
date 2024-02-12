@@ -38,3 +38,8 @@ fehQlibs-15a:  	Again, changes for dns_ipq.c concerning return codes.
 		Documentation and man page fixes for DNS stub resolver. 
 		GCC 10 linker warning for external 'ipv4socket' solved.
 fehQlibs-15b:	GCC 10 compiler issues solved. DNS TLSA record correct value.
+fehQlibs-16:	19961114 change: dns_ip() now recognizes [1.2.3.4] and [f80::a]. tnx DS.
+		scan_long() included for mess822x support.
+		constmap() added from qmail and written man page.
+		Updated getln man page to refer buffer.
+		Changed ipv4/6-localhost and ipv4/6-loopback to ip4/6-localhost and ip4/6-loopback.

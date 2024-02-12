@@ -8,6 +8,8 @@ unsigned int \fBscan_8long\fP(const char *\fIsrc\fR,unsigned long *\fIdest\fR);
 .br
 unsigned int \fBscan_uint\fP(const char *\fIsrc\fR,int *\fIdest\fR);
 .br
+unsigned int \fBscan_long\fP(const char *\fIsrc\fR,unsigned long *\fIdest\fR);
+.br
 unsigned int \fBscan_ulong\fP(const char *\fIsrc\fR,unsigned long *\fIdest\fR);
 .br
 unsigned int \fBscan_xint\fP(const char *\fIsrc\fR,int *\fIdest\fR);
@@ -38,6 +40,12 @@ overflow.
 .B scan_ulong 
 returns the number of characters successfully scanned and
 processed from src.
+
+.B scan_long
+includes the same logic as
+.B scan_ulong
+but now on a signed long integer in decimal ASCII format while
+recognizing the leading '+' or '-' sign.
 
 .B scan_xint 
 parses an unsigned integer in hexadecimal ASCII representation

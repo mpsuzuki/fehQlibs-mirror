@@ -212,11 +212,11 @@ int dns_ip_qualify_localhost(stralloc *ipout,stralloc *fqdn,const stralloc *in)
   }
   if (byte_equal(in->s,13,IP4_LOOPBACK)) {
     if (!stralloc_copyb(ipout,(const char *) V46loopback,16)) return DNS_MEM;
-    if (!stralloc_copys(fqdn,"ipv4-loopback.localhost.")) return DNS_MEM;
+    if (!stralloc_copys(fqdn,"ip4-loopback.localhost.")) return DNS_MEM;
   }
   if (byte_equal(in->s,13,IP6_LOOPBACK)) {
     if (!stralloc_copyb(ipout,(const char *) V6loopback,16)) return DNS_MEM;
-    if (!stralloc_copys(fqdn,"ipv6-loopback.localhost.")) return DNS_MEM;
+    if (!stralloc_copys(fqdn,"ip6-loopback.localhost.")) return DNS_MEM;
   }
 //  if (!stralloc_0(fqdn)) return DNS_MEM; // don't do it
 

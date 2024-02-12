@@ -59,7 +59,7 @@ int dns_ip4(stralloc *out,stralloc *fqdn)
   if (!stralloc_readyplus(fqdn,1)) return DNS_MEM;
 
   fqdn->s[fqdn->len] = 0;		/* if FQDN is just IPv4 */
-  if (ip4_scan(fqdn->s,ip)) {
+  if (ip4_scan(fqdn->s,ip) || ip4_scanbracket(fqdn->s,ip)) {
     if (!stralloc_copyb(out,ip,4)) return DNS_MEM;
     return 1;
   }
@@ -151,7 +151,7 @@ int dns_ip6(stralloc *out,stralloc *fqdn)
   if (!stralloc_readyplus(fqdn,1)) return DNS_MEM;
 
   fqdn->s[fqdn->len] = 0;		/* if FQDN is just IPv6 */
-  if (ip6_scan(fqdn->s,ip)) {
+  if (ip6_scan(fqdn->s,ip) || ip6_scanbracket(fqdn->s,ip)) {
     if (!stralloc_copyb(out,ip,16)) return DNS_MEM;
     return 1;
   }

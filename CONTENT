@@ -14,6 +14,7 @@ buffer.a          buffer.h      buffer.3
 case.a            case.h        case.3
 cdb.a             cdbmake.h     cdbmake.3
                   cdbread.h     cdbread.3 
+constmap.a        constmap.h    constmap.3
 dnsresolv.a       dnsresolv.h   dns.3, dnsstub.3
 env.a             env.h         env.3
 fd.a              fd.h          fd.3

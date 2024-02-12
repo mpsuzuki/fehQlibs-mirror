@@ -29,7 +29,7 @@ and potentially terminates the calling program, depending on the \fIclass\fR giv
 Read "error.h" to learn related constants.
 .SH ECODE
 \fIecode\fR is the error code and subject to be displayed in the log file and
-potentially used upon exit in case the \fIclass\fR equals \fBFATAL\fR or \fBDROP\fR.
+potentially used upon exit iif the \fIclass\fR equals \fBERROR\fR, \fBFATAL\fR, or \fBDROP\fR.
 
 To avoid conflicts with syscall error codes, appplication defined error codes should be negative. 
 The values \fI-15\fR, \fI-100\fR and \fI-111\fR are reserved for backwards compatibility. 
@@ -95,7 +95,7 @@ The macro definitions uses  \fBw\fR for the calling program,
   err_sys_plus(WHO,-111,"additional message");
 
   err_tmp("",-100);
-  err_tmp("",errno,"additional message");
+  err_tmp_plus("",errno,"additional message");
 
   log_who(WHO,"message");
 

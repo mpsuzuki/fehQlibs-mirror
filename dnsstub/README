@@ -15,6 +15,7 @@ can be specified. The IPv4 format could be either a
  - IPv4-mapped IPv6 address.
 
 In any case, compactified IPv6 addresses are understood.
+IPv4/IPv6 addresses in brackets are understood by dns_ip.
 
 Resolver Call:
 
@@ -33,7 +34,7 @@ If provided, the stub-resolver uses either a system-wide configuration file
 in order to define persistent mapping-rules of local domain names to public 
 ones (for lookup) or IP addresses (for direct matching).
 
-Well-known domain names 'localhost', 'ipv4-loopback' and 'ipv6-loopback'
+Well-known domain names 'localhost', 'ip4-loopback' and 'ip6-loopback'
 are handled locally, thus no DNS query is used (RFC 6761).
 'localhost' is advertised as '::1' and '::ff:127.0.0.1' in it's native
 IPv6 format. It is up to the caller to convert the IPv6-mapped IPv4
@@ -150,4 +151,4 @@ Instructions are followed in order, each at most once. There are four types of i
 ?post:new means that any name of the form prepost, where pre does not contain dots or brackets, is replaced by prenew.
 -post:new means that any name of the form prepost is replaced by new.
 
-Erwin Hoffmann, August 2020.
+Erwin Hoffmann, October 2020.

@@ -78,8 +78,8 @@
 #define DNS_T_CAA "\1\1"
 
 #define LOCALHOST "localhost" /* no clear distinction IPv4/IPv6 */
-#define IP4_LOOPBACK "ipv4-loopback"
-#define IP6_LOOPBACK "ipv6-loopback"
+#define IP4_LOOPBACK "ip4-loopback"
+#define IP6_LOOPBACK "ip6-loopback"
 
 struct dns_transmit {
   char *query;  /* 0, or dynamically allocated */

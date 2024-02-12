@@ -93,5 +93,5 @@ void logmsg(const char *who,int ecode,unsigned int class,const char *msg)
 
   if (class == USAGE) _exit(USAGE); 
   if (class == SYNTAX) _exit(SYNTAX); 
-  if (class == FATAL || class == ERROR) _exit(ecode);
+  if (class == FATAL || class == DROP || class == ERROR) _exit(ecode);
 }

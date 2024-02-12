@@ -4,11 +4,11 @@ getln \ - read one line of data
 .SH SYNTAX
 .B #include \(dqgetln.h\(dq
 
-int \fBgetln\fP(&ss,&sa,&match,sep);
+int \fBgetln\fP(&buffer_0,&sa,&match,sep);
 .br
-int \fBgetln2\fP(&ss,&sa,&cont,&clen,sep);
+int \fBgetln2\fP(&buffer_0,&sa,&cont,&clen,sep);
 
-substdio \fIss\fR; 
+buffer \fIbuffer_0\fR; 
 .br
 stralloc \fIsa\fR; 
 .br
@@ -22,7 +22,7 @@ unsigned int \fIclen\fR;
 .SH DESCRIPTION
 .B getln 
 reads a line of characters, terminated by a sep character, from 
-.IR ss . 
+.IR buffer_0 . 
 It returns the line in 
 .I sa 
 and sets match to 
@@ -40,7 +40,7 @@ and sets match to
 reads a line of characters, terminated by a 
 .I sep 
 character, from 
-.IR ss .
+.IR buffer_0 .
 The line is returned in two pieces. The first piece is stored in 
 .IR sa . 
 The second piece is 
@@ -48,7 +48,7 @@ The second piece is
 a pointer to 
 .I clen 
 characters inside the 
-.I ss 
+.I buffer_0 
 buffer. The second piece must be copied somewhere else before 
 .I ss 
 is used again.
@@ -86,6 +86,11 @@ it returns
 setting 
 .I errno 
 appropriately.  
+.SH NOTE
+The input buffer
+.I buffer_0
+is already pre-allocated. 
+It can be used without initialization as synonym for STDIN.
 .SH CREDITS
 The
 .B getln 

@@ -27,4 +27,4 @@ HDRDIR=
 
 #********************************************************************************
 # Additional libs (object files, delimited by space, enclosed in "'")
-OFILES='base64.o byte.o fmt.o prot.o pathexec.o readclose.o scan.o'
+OFILES='base64.o byte.o fmt.o prot.o pathexec.o readclose.o scan.o constmap.o'

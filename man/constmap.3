@@ -1,0 +1,56 @@
+.TH qlibs:constmap 3
+.SH NAME
+constmap \- fetch matching strings from a hashed data structure in constant time
+.SH SYNTAX
+.B #include \(dqconstmap.h\(dq
+.SH SYNOPSIS
+int \fBconstmap_init\fP(struct constmap \fI*cm\fR,char \fI*string\fR,int \fIlen\fR,int \fIflagcolon\fR);
+.br
+int \fBconstmap_init_char\fP(struct constmap \fI*cm\fR,char \fI*string\fR,int \fIlen\fR,int \fIflagcolon\fR,char \fIflagchar\fR);
+.br
+char *\fBconstmap\fP(struct constmap \fI*cm\fR,char \fI*string\fR,int \fIlen\fR);
+.br
+void \fBconstmap_free\fP(\fIstruct constmap *cm\fR);
+.SH DESCRIPTION
+Reading a file perhaps with
+.I control_readfile(&cmap,"path/filename",0)
+.B constmap_init 
+can be used to convert its content into a constant time search map:
+.IR constmap .
+Here, you can specify whether the entries in
+.I constmap
+are plain or key/value structured setting
+.I flagcolon 
+to one and assuming the delimiter equals to a colon:
+.IR : .
+If the delimiter needs to be particulary tailored, use
+.BR constmap_init_char .
+
+Given the search 
+.I string 
+and providing its length
+.I len 
+(without the trailing \\0)
+.B constmap
+will now retrieve the information in constant time
+returning a pointer to the search result or 
+.IR 0 .
+
+The datastructure can be freed by means of
+.BR constmap_free .
+.SH EXAMPLE
+#include <constmap.h>
+
+ struct constmap cmap;
+ stralloc result = {0};
+ char *info;
+ char *search;
+
+ if (control_readfile(&cmap,"control/conf",0))
+   constmap_init(&cmap,result.s,result.len,1));
+ 
+ info = constmap(&cmap,search,str_len (search));
+ if (!info) return 0;
+
+.SH "SEE ALSO"
+cdbread(3), cdbmake(3)

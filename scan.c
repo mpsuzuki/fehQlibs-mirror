@@ -56,6 +56,26 @@ unsigned int scan_uint(register const char *s,register unsigned int *u)
   return pos;
 }
 
+unsigned int scan_plusminus(register const char *s,register int *sign)
+{
+  if (*s == '+') { *sign = 1; return 1; }
+  if (*s == '-') { *sign = -1; return 1; }
+  *sign = 1; return 0;
+}
+
+unsigned int scan_long(register const char *s,register long *i)
+{
+  int sign; 
+  unsigned long u; 
+  register unsigned int len;
+
+  len = scan_plusminus(s,&sign); s += len;
+  len += scan_ulong(s,&u);
+  if (sign < 0) *i = -u; else *i = u;
+  return len;
+}
+
+
 unsigned int scan_ulong(register const char *s,register unsigned long *u)
 {
   register unsigned int pos = 0;

@@ -22,8 +22,9 @@ clean:
 	@cd dnsstub ; make -s clean
 	@echo " done!"
 
-core: alloc.a buffer.a case.a cdb.a env.a logmsg.a fd.a fs.a getln.a getopt.a \
-lock.a ndelay.a open.a seek.a sig.a str.a stralloc.a time.a wait.a \
+core: alloc.a buffer.a case.a cdb.a constmap.a env.a \
+fd.a fs.a getln.a getopt.a lock.a logmsg.a ndelay.a open.a \
+seek.a sig.a str.a stralloc.a time.a wait.a \
 ip.a socket.a dnsresolv.a 
 
 libs: obj core qlibs.a dnsresolv.a
@@ -69,6 +70,9 @@ case.a: case.o
 
 cdb.a: cdbread.o cdbmake.o uint32p.o seek.o buffer.o
 	$(MAKELIB) $(LDFLAGS) cdb.a cdbread.o cdbmake.o uint32p.o seek.o buffer.o
+
+constmap.a: constmap.o alloc.o buffer.o scan.o 
+	$(MAKELIB) $(LDFLAGS) constmap.a constmap.o alloc.o buffer.o scan.o
 
 env.a: env.o
 	$(MAKELIB) $(LDFLAGS) env.a env.o
