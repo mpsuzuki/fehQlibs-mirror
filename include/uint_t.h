@@ -24,10 +24,10 @@ typedef unsigned char uint8;
 
 typedef uint16_t uint16;
 
-extern void uint16_pack(char *,uint16);
-extern void uint16_pack_big(char *,uint16);
-extern void uint16_unpack(char *,uint16 *);
-extern void uint16_unpack_big(char *,uint16 *);
+extern void uint16_pack(char[2],uint16);
+extern void uint16_pack_big(char[2],uint16);
+extern void uint16_unpack(char[2],uint16 *);
+extern void uint16_unpack_big(char[2],uint16 *);
 #endif
 
 #ifndef UINT32_H
@@ -35,10 +35,10 @@ extern void uint16_unpack_big(char *,uint16 *);
 
 typedef uint32_t uint32;
 
-extern void uint32_pack(char *,uint32);
-extern void uint32_pack_big(char *,uint32);
-extern void uint32_unpack(char *,uint32 *);
-extern void uint32_unpack_big(char *,uint32 *);
+extern void uint32_pack(char[4],uint32);
+extern void uint32_pack_big(char[4],uint32);
+extern void uint32_unpack(char[4],uint32 *);
+extern void uint32_unpack_big(char[4],uint32 *);
 #endif
 
 #ifndef UINT64_H
@@ -50,10 +50,10 @@ typedef uint64_t uint64;
 typedef unsigned long long uint64;
 #endif
 
-extern void uint64_pack(char *,uint64);
-extern void uint64_pack_big(char *,uint64);
-extern void uint64_unpack(char *,uint64 *);
-extern void uint64_unpack_big(char *,uint64 *);
+extern void uint64_pack(char[8],uint64);
+extern void uint64_pack_big(char[8],uint64);
+extern void uint64_unpack(char[8],uint64 *);
+extern void uint64_unpack_big(char[8],uint64 *);
 #endif
 
 #ifndef UINT128_H
@@ -69,8 +69,8 @@ struct uint128_t
 
 typedef struct uint128_t uint128;
 
-extern void uint128_pack(char *,uint128);
-extern void uint128_pack_big(char *,uint128);
-extern void uint128_unpack(char *,uint128 *);
-extern void uint128_unpack_big(char *,uint128 *);
+extern void uint128_pack(char[16],uint128);
+extern void uint128_pack_big(char[16],uint128);
+extern void uint128_unpack(char[16],uint128 *);
+extern void uint128_unpack_big(char[16],uint128 *);
 #endif

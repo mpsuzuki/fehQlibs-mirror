@@ -82,7 +82,7 @@ const static char V4broadcast[4] = {-1,-1,-1,-1}; // all bits 1
  *
  */
 
-unsigned int ip6_bytestring(stralloc *,char *,int);
+unsigned int ip6_bytestring(stralloc *,char[16],int);
 unsigned int ip6_cidr(char *,char [16],unsigned long *);
 unsigned int ip6_fmt(char *,char [16]);
 unsigned int ip6_fmt_flat(char *,char [16]);

@@ -115,7 +115,7 @@ struct dns_transmit {
 
 /* General */
 
-extern void dns_random_init(const char *);
+extern void dns_random_init(const char[128]);
 extern unsigned int dns_random(unsigned int);
 
 extern void dns_domain_free(char **);
@@ -135,18 +135,18 @@ extern unsigned int dns_packet_getname(const char *,unsigned int,unsigned int,ch
 extern unsigned int dns_packet_skipname(const char *,unsigned int,unsigned int);
 
 extern struct dns_transmit dns_resolve_tx;
-extern int dns_transmit_start(struct dns_transmit *,const char *,int,const char *,const char *,const char *);
+extern int dns_transmit_start(struct dns_transmit *,const char[QUERY_MAXIPLEN],int,const char *,const char[2],const char[16]);
 extern void dns_transmit_free(struct dns_transmit *);
 extern void dns_transmit_io(struct dns_transmit *,iopause_fd *,struct taia *);
 extern int dns_transmit_get(struct dns_transmit *,const iopause_fd *,const struct taia *);
 
 /* Common IPv4 + IPv6 */
 
-extern int dns_resolvconfip(char *,uint32 *);
+extern int dns_resolvconfip(char[QUERY_MAXIPLEN],uint32[QUERY_MAXNS]);
 extern int dns_resolvconfrewrite(stralloc *);
-extern int dns_resolve(const char *,const char *);
+extern int dns_resolve(const char *,const char[2]);
 
-extern int dns_name(stralloc *,const char *);
+extern int dns_name(stralloc *,const char[16]);
 extern int dns_name_packet(stralloc *,const char *,unsigned int);
 extern int dns_txt_packet(stralloc *,const char *,unsigned int);
 extern int dns_txt(stralloc *,const stralloc *);
@@ -163,8 +163,8 @@ extern int dns_ip4_qualify_rules(stralloc *,stralloc *,const stralloc *,const st
 extern int dns_ip4_qualify(stralloc *,stralloc *,const stralloc *);
 
 #define DNS_NAME4_DOMAIN 31
-extern int dns_name4_domain(char *,const char *);
-extern int dns_name4(stralloc *,const char *);
+extern int dns_name4_domain(char[DNS_NAME4_DOMAIN],const char[4]);
+extern int dns_name4(stralloc *,const char[4]);
 extern int randombind4(struct dns_transmit *);
 
 /* IPv6 specific */
@@ -177,13 +177,13 @@ extern int dns_ip6_qualify_rules(stralloc *,stralloc *,const stralloc *,const st
 extern int dns_ip6_qualify(stralloc *,stralloc *,const stralloc *);
 
 #define DNS_NAME6_DOMAIN (4*16+11)
-extern int dns_name6_domain(char *,const char *);
-extern int dns_name6(stralloc *,const char *);
+extern int dns_name6_domain(char[DNS_NAME6_DOMAIN],const char[16]);
+extern int dns_name6(stralloc *,const char[16]);
 
 extern int dns_cname_packet(stralloc *,const char *,unsigned int);
 extern int dns_cname(stralloc *,stralloc *);
 
-extern int dns_transmit_start6(struct dns_transmit *,const char *,int,const char *,const char *,const char *,const uint32 *);
+extern int dns_transmit_start6(struct dns_transmit *,const char[QUERY_MAXIPLEN],int,const char *,const char[2],const char[16],const uint32[QUERY_MAXNS]);
 extern int randombind6(struct dns_transmit *);
 
 /* General */
